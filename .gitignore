@@ -1,0 +1,10 @@
+venv/
+
+.vscode/
+
+Pipfile.lock
+
+__pycache__
+
+# ignore map files starting with a dot in folder map (app/map)
+app/maps/**/.*.txt
