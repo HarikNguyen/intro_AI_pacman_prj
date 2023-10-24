@@ -8,3 +8,14 @@
 ## Các thuật toán:
 
 - Level 1 & 2: DFS, BFS, UCS, A\*
+
+## Cách triển khai thuật toán:
+
+- Với mỗi level viết các file (module) là tên thuật toán (ví dụ: `dfs.py`, `bfs.py`, `ucs.py`, `a_star.py`) và phải định nghĩa tên thuật toán ở list (ALGO_NAME) trong file `app/constants/__init__.py`.
+- Và trong file đó phải định nghĩa hàm trùng với tên file. Ví dụ: `def dfs(...):` trong file `dfs.py`.
+- Hàm đó phải nhận đầu vào như sau `(map, map_size, pacman_pos)`
+- Và đầu ra ở **level 1 & 2** phải là `path, len(path), score`
+
+## Cách kiểm tra:
+
+- Các bạn có thể tham khảo ở thư mục `/test`

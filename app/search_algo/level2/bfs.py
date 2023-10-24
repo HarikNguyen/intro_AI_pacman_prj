@@ -1,5 +1,5 @@
 """
-    Description: Breadth First Search Algorithm for Level 1
+    Description: Breadth First Search Algorithm for Level 2 (monster is not moving ~ wall)
     BFS: 
         - Start at the root node
         - Explore each neighbour before going to any of their children
@@ -9,7 +9,8 @@
 """
 
 from collections import deque
-from app.constants import WALL, FOOD, X, Y
+
+from app.constants import WALL, FOOD, X, Y, MONSTER
 
 def bfs(map, map_size, pacman_pos):
     """
@@ -89,7 +90,7 @@ def get_neighbors(map, map_size, node):
         # Check if the neighbor is within the map
         if 0 <= neighbor_x < map_size[X] and 0 <= neighbor_y < map_size[Y]:
             # Check if the neighbor is not a wall
-            if map[neighbor_x][neighbor_y] != WALL:
+            if map[neighbor_x][neighbor_y] != WALL and map[neighbor_x][neighbor_y] != MONSTER:
                 neighbors.append((neighbor_x, neighbor_y))
 
     return neighbors
