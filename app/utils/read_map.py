@@ -50,4 +50,4 @@ def read_map(map_name):
             raise Exception('Invalid pacman position')
         
         # return map and pacman position
-        return map, map_size, pacman_pos
+        return map, tuple(map_size), tuple(pacman_pos)
