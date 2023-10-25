@@ -1,3 +1,4 @@
+import os
 import sys
 import math
 import random
@@ -5,6 +6,7 @@ import string
 import time
 import types
 import tkinter as tk
+from PIL import Image, ImageTk
 
 # Define global variables
 
@@ -25,7 +27,6 @@ if _is_Windows:
 else:
     _canvas_tfonts = ["times", "lucidasans-24"]
     pass  # XXX need defaults here
-
 
 # Define colors
 def format_color(r, g, b):
@@ -93,7 +94,10 @@ def graphic_init(width=640, height=480, background_color="black", title=None):
 
 def _destroy_window(event=None):
     # Clean up window and exit
-    sys.exit(0)
+    # close root window
+    global _root_window
+    _root_window.quit()
+    _root_window = None
 
 def draw_background():
     # Draw background (background is the polygon)
@@ -112,8 +116,13 @@ def sleep(seconds):
     Args:
         seconds (float): The seconds to sleep
     """
-    _canvas.update()
-    time.sleep(seconds)
+    global _root_window
+    if _root_window == None:
+        time.sleep(seconds)
+    else:
+        _root_window.update_idletasks()
+        _root_window.after(int(1000 * seconds), _root_window.quit)
+        _root_window.mainloop()
 
 def wait_for_close():
     """Wait for user click x button to close the window or press Esc key"""
@@ -126,6 +135,12 @@ def wait_for_close():
 ################################## Define functions for shape drawing #################################
 #######################################################################################################
 
+def matrix_to_screen(mat_point, map_size, grid_size):
+        ( x, y ) = mat_point
+        x = (x + 1)*grid_size
+        y = (y + 1)*grid_size
+        screen_point = ( x, y )
+        return screen_point
 
 def polygon(
     coords, outline_color, fill_color=None, filled=True, smoothed=True, behind=0
@@ -234,6 +249,9 @@ def text(
     return _canvas.create_text(
         x, y, fill=color, text=contents, font=font, anchor=anchor
     )
+
+def add_2_point(point1, point2):
+    return(point1[0] + point2[0], point1[1] + point2[1])
 
 
 #######################################################################################################

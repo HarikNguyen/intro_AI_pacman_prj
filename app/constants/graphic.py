@@ -2,9 +2,9 @@ from app.utils.graphic import format_color, color_to_vector
 
 DEFAULT_GRID_SIZE = 30.0
 INFO_PANE_HEIGHT = 35
-BACKGROUND_COLOR = format_color(0,0,0)
+BACKGROUND_COLOR = format_color(42/255,42/255,45/255)
 WALL_COLOR = format_color(0.0/255.0, 51.0/255.0, 255.0/255.0)
-INFO_PANE_COLOR = format_color(.4,.4,0)
+INFO_PANE_COLOR = format_color(.4,.4,0) 
 SCORE_COLOR = format_color(.9, .9, .9)
 
 WHITE = format_color(1.0, 1.0, 1.0)
@@ -46,14 +46,6 @@ PACMAN_SCALE = 0.5
 # Food
 FOOD_COLOR = format_color(1,1,1)
 FOOD_SIZE = 0.1
-
-# Laser
-LASER_COLOR = format_color(1,0,0)
-LASER_SIZE = 0.02
-
-# Capsule graphics
-CAPSULE_COLOR = format_color(1,1,1)
-CAPSULE_SIZE = 0.25
 
 # Drawing walls
 WALL_RADIUS = 0.15
