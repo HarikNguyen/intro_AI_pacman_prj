@@ -1,5 +1,6 @@
 """ Constants for the search algorithm
 """
+
 ROAD = 0
 WALL = 1
 FOOD = 2
