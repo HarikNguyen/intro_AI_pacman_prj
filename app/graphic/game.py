@@ -36,26 +36,48 @@ def draw_pane(
     # Draw food
     food_ids = draw_food(map, map_size, grid_size)
 
+    # Draw ghost
+    ghost_ids = []
+
     bind_esc_to_quit()
 
-    return pacman_id, [], []
+    return pacman_id, ghost_ids, food_ids
 
-def play_game(map_size, pacman_id, ghost_ids, food_ids, pacman_path, ghost_paths, extract_score, time_frame=0.0):
+
+def play_game(
+    map_size,
+    pacman_id,
+    ghost_ids,
+    food_ids,
+    pacman_path,
+    ghost_paths,
+    extract_score,
+    time_frame=0.0,
+):
+    # define cur_score = 0
+    curr_score = 0
+
     # convert pacman_path to direction_routing
     pacman_routing = convert_path_to_direction_routing(pacman_path)
-    
-    # each time frame update step by step
-    frame_no = 0 # frame id counted when play
-    while True:
 
+    # each time frame update step by step
+    frame_no = 0  # frame id counted when play
+    while True:
         # check if pacman stop
         if frame_no == len(pacman_routing):
             wait_for_close()
 
         # pacman move
         pacman_direction = pacman_routing[frame_no]
-        pacman_mat_pos = (pacman_path[frame_no][Y], pacman_path[frame_no][X]) # matrix (x, y) --> screen (y,x)
+        pacman_mat_pos = (
+            pacman_path[frame_no][Y],
+            pacman_path[frame_no][X],
+        )  # matrix (x, y) --> screen (y,x)
         move_pacman(pacman_id, map_size, pacman_mat_pos, pacman_direction)
+        # pacman eat food
+        if pacman_path[frame_no] in list(food["key"] for food in food_ids):
+            food_ids = remove_food(food_ids, pacman_path[frame_no])
+            curr_score += 1
         # ghost move
         # for ghost_id, ghost_path in zip(ghost_ids, ghost_paths):
         #     ghost_direction = convert_path_to_direction_routing(ghost_path)[frame_no]
@@ -67,6 +89,7 @@ def play_game(map_size, pacman_id, ghost_ids, food_ids, pacman_path, ghost_paths
 
         # wait for time_frame
         sleep(time_frame)
+
 
 def convert_path_to_direction_routing(path):
     direction_routing = [STOP]
@@ -87,7 +110,7 @@ def convert_path_to_direction_routing(path):
             direction_routing.append(DOWN)
         else:
             pass
-    
+
     direction_routing[-1] = STOP
 
     return direction_routing

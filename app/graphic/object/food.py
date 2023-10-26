@@ -21,17 +21,20 @@ def draw_food(map, map_size, grid_size):
                     width=1
                 )
                 food_ids.append({
-                    "key": 1,
+                    "key": (row_id, col_id),
                     "id": food
                 })
     return food_ids
 
-def remove_food(food_ids, food_remove_id):
+def remove_food(food_ids, food_remove_pos):
     # remove food_remove_id in food_ids
     food_ids_removed = []
+    food_remove_id = None
     for food in food_ids:
-        if food.id != food_remove_id:
+        if food["key"] != food_remove_pos:
             food_ids_removed.append(food)
+        else:
+            food_remove_id = food["id"]
     
     # remove food from screen
     remove_from_screen(food_remove_id)
