@@ -6,6 +6,7 @@ BACKGROUND_COLOR = format_color(42/255,42/255,45/255)
 WALL_COLOR = format_color(0.0/255.0, 51.0/255.0, 255.0/255.0)
 INFO_PANE_COLOR = format_color(.4,.4,0) 
 SCORE_COLOR = format_color(.9, .9, .9)
+MOVE_STEP = 1
 
 WHITE = format_color(1.0, 1.0, 1.0)
 BLACK = format_color(0.0, 0.0, 0.0)
