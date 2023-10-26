@@ -1,10 +1,11 @@
-
 from ..settings import BASE_DIR
 
-MAP_DIR = BASE_DIR / 'app' / 'maps'
+MAP_DIR = BASE_DIR / "app" / "maps"
+
 
 def is_pacman_pos_valid(map, pacman_pos):
     return map[pacman_pos[0]][pacman_pos[1]] == 0
+
 
 def is_map_valid(map):
     # all rows must have the same length
@@ -17,6 +18,7 @@ def is_map_valid(map):
             if map[row][col] not in [0, 1, 2, 3]:
                 return False
     return True
+
 
 def read_map(map_name):
     map_file = MAP_DIR / map_name
@@ -38,8 +40,8 @@ def read_map(map_name):
                 map[row][col] = int(map[row][col])
         # check map constraints
         if is_map_valid(map) == False:
-            raise Exception('Invalid map')
-        
+            raise Exception("Invalid map")
+
         # read pacman position
         pacman_pos = f.readline().split()
         # transform pacman position to int
@@ -47,7 +49,7 @@ def read_map(map_name):
             pacman_pos[i] = int(pacman_pos[i])
         # check pacman constraints
         if is_pacman_pos_valid(map, pacman_pos) == False:
-            raise Exception('Invalid pacman position')
-        
+            raise Exception("Invalid pacman position")
+
         # return map and pacman position
         return map, tuple(map_size), tuple(pacman_pos)

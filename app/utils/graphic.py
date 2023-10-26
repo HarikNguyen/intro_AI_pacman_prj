@@ -28,6 +28,7 @@ else:
     _canvas_tfonts = ["times", "lucidasans-24"]
     pass  # XXX need defaults here
 
+
 # Define colors
 def format_color(r, g, b):
     """Format the color
@@ -61,6 +62,7 @@ def color_to_vector(color):
 
 
 def graphic_init(width=640, height=480, background_color="black", title=None):
+    """Create the graphic window"""
     global _root_window, _canvas, _canvas_xs, _canvas_ys, _canvas_x, _canvas_y, _canvas_color, _canvas_tsize, _canvas_tserifs, _canvas_tfonts
 
     # Check for duplicate call
@@ -93,20 +95,22 @@ def graphic_init(width=640, height=480, background_color="black", title=None):
 
 
 def _destroy_window(event=None):
+    """Destroy the window"""
     # Clean up window and exit
     # close root window
     global _root_window
     _root_window.quit()
     _root_window = None
 
+
 def draw_background():
-    # Draw background (background is the polygon)
+    """Draw background (background is the polygon)"""
     corners = [(0, 0), (0, _canvas_ys), (_canvas_xs, _canvas_ys), (_canvas_xs, 0)]
-    polygon(corners, _canvas_color, _canvas_color,smoothed=False)
+    polygon(corners, _canvas_color, _canvas_color, smoothed=False)
 
 
 def refresh():
-    # Refresh screen
+    """Refresh screen"""
     _canvas.update_idletasks()  # redraw
 
 
@@ -124,25 +128,32 @@ def sleep(seconds):
         _root_window.after(int(1000 * seconds), _root_window.quit)
         _root_window.mainloop()
 
+
 def wait_for_close():
     """Wait for user click x button to close the window or press Esc key"""
     _root_window.bind("<Escape>", _destroy_window)
     _root_window.mainloop()
 
+
 def bind_esc_to_quit():
+    """Bind Esc key to quit the window"""
     _root_window.bind("<Escape>", _destroy_window)
+
 
 #######################################################################################################
 ########################################### SHAPE FUNCTIONS ###########################################
 ################################## Define functions for shape drawing #################################
 #######################################################################################################
 
+
 def matrix_to_screen(mat_point, map_size, grid_size):
-        ( x, y ) = mat_point
-        x = (x + 1)*grid_size
-        y = (y + 1)*grid_size
-        screen_point = ( x, y )
-        return screen_point
+    """Convert matrix point (row_id, col_id) to screen point (x, y) where x = col_id * grid_size, y = row_id * grid_size"""
+    (x, y) = mat_point
+    x = (x + 1) * grid_size
+    y = (y + 1) * grid_size
+    screen_point = (x, y)
+    return screen_point
+
 
 def polygon(
     coords, outline_color, fill_color=None, filled=True, smoothed=True, behind=0
@@ -191,6 +202,20 @@ def circle(
     style="pieslice",
     width=2,
 ):
+    """Draw a circle with the given point position and radius
+
+    Args:
+        point_pos (tuple): The position of the point
+        radius (int): The radius of the circle
+        outline_color (str): The color of the outline
+        fill_color (str): The color of the fill
+        endpoints (tuple, optional): Contain (start and end point). Defaults to None.
+        style (str, optional): Type of circle/arc. Defaults to "pieslice".
+        width (int, optional): The width of arc. Defaults to 2.
+
+    Returns:
+        circle_id (int): The circle canvas object id
+    """
     # set up info for drawing
     x, y = point_pos
     # start and end angles for circle arc
@@ -232,7 +257,7 @@ def line(start_point, end_point, color=format_color(0, 0, 0), width=2):
         width (int, optional): The width of the line. Defaults to 2.
 
     Returns:
-        int: The id of the line
+        int: The id of the line canvas object
     """
     x0, y0 = start_point
     x1, y1 = end_point
@@ -245,6 +270,7 @@ def line(start_point, end_point, color=format_color(0, 0, 0), width=2):
 def text(
     position, color, contents, font="Helvetica", size=12, style="normal", anchor="nw"
 ):
+    """The text object"""
     global _canvas_x, _canvas_y
     x, y = position
     font = (font, str(size), style)
@@ -252,8 +278,11 @@ def text(
         x, y, fill=color, text=contents, font=font, anchor=anchor
     )
 
+
 def add_2_point(point1, point2):
-    return(point1[0] + point2[0], point1[1] + point2[1])
+    """Add 2 points together"""
+    return (point1[0] + point2[0], point1[1] + point2[1])
+
 
 #######################################################################################################
 ####################################### SHAPE ACTION FUNCTIONS ########################################
@@ -336,12 +365,10 @@ def move_by(
     Meaning that the object will move to (current_x + x, current_y + y)
 
     Args:
-        object (_type_): _description_
-        x (_type_): _description_
-        y (_type_, optional): _description_. Defaults to None.
-        d_o_e (_type_, optional): _description_. Defaults to lambda arg:_root_window.dooneevent(arg).
-        d_w (_type_, optional): _description_. Defaults to tk._tkinter.DONT_WAIT.
-        lift (bool, optional): _description_. Defaults to False.
+        object (int): Object id
+        x (int or tuple of int): The x coordinate or the tuple of x and y coordinate
+        y (int or None, optional): The y coordinate. Defaults to None.
+        lift (bool, optional): The flag to lift the object. Defaults to False.
 
     Raises:
         Exception: Incomprehensible coordinates
@@ -377,6 +404,7 @@ def move_circle(
     radius,
     endpoints=None,
 ):
+    """Move the circle with the given id to the given center point and radius"""
     x, y = center_point
     x0, y0 = x - radius - 1, y - radius - 1  # -1 to make sure the circle is not cut off
     x1, y1 = x + radius, y + radius
@@ -399,3 +427,13 @@ def move_circle(
 
     # Move to x0, y0
     move_to(id, x0, y0)
+
+
+def remove_from_screen(
+    id,
+    d_o_e=lambda arg: _root_window.dooneevent(arg),
+    d_w=tk._tkinter.DONT_WAIT,
+):
+    """Remove the shape with the given id from the screen"""
+    _canvas.delete(id)
+    d_o_e(d_w)

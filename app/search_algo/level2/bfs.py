@@ -12,17 +12,18 @@ from collections import deque
 
 from app.constants import WALL, FOOD, X, Y, MONSTER
 
+
 def bfs(map, map_size, pacman_pos):
     """
-        Description: Breadth First Search Algorithm for Level 1
-        Input:
-            - map: 2D array of integers
-            - start: tuple of integers (pacman's starting position)
-            - pacman_pos: tuple of integers (food's position)
-        Output:
-            - finding_path: list of tuples
-            - finding_path_length: integer
-            - score: integer
+    Description: Breadth First Search Algorithm for Level 1
+    Input:
+        - map: 2D array of integers
+        - start: tuple of integers (pacman's starting position)
+        - pacman_pos: tuple of integers (food's position)
+    Output:
+        - finding_path: list of tuples
+        - finding_path_length: integer
+        - score: integer
     """
     # Initialize variables
     queue = deque()
@@ -70,6 +71,7 @@ def bfs(map, map_size, pacman_pos):
     # if all nodes in frontier (queue) are visited and the goal is not found (score = 0)
     return path, len(path), ghost_paths, score
 
+
 def get_neighbors(map, map_size, node):
     """Get the neighbors of the node
     neighbors are the nodes that are adjacent to the node, excluding the blocked nodes (walls/monsters)
@@ -96,7 +98,10 @@ def get_neighbors(map, map_size, node):
         # Check if the neighbor is within the map
         if 0 <= neighbor_x < map_size[X] and 0 <= neighbor_y < map_size[Y]:
             # Check if the neighbor is not a wall
-            if map[neighbor_x][neighbor_y] != WALL and map[neighbor_x][neighbor_y] != MONSTER:
+            if (
+                map[neighbor_x][neighbor_y] != WALL
+                and map[neighbor_x][neighbor_y] != MONSTER
+            ):
                 neighbors.append((neighbor_x, neighbor_y))
 
     return neighbors

@@ -11,4 +11,4 @@ X = 0
 Y = 1
 
 # Define Algo_name list
-ALGO_NAME = ['bfs', 'dfs', 'ucs', 'a_star']
+ALGO_NAME = ["bfs", "dfs", "ucs", "a_star"]

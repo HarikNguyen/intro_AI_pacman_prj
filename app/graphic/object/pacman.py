@@ -1,4 +1,5 @@
-import time
+"""This module contains functions to draw and move pacman from screen
+"""
 
 from app.utils.graphic import *
 from app.constants.graphic import *
