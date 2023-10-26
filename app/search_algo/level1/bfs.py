@@ -11,17 +11,18 @@
 from collections import deque
 from app.constants import WALL, FOOD, X, Y
 
+
 def bfs(map, map_size, pacman_pos):
     """
-        Description: Breadth First Search Algorithm for Level 1
-        Input:
-            - map: 2D array of integers
-            - start: tuple of integers (pacman's starting position)
-            - pacman_pos: tuple of integers (food's position)
-        Output:
-            - finding_path: list of tuples
-            - finding_path_length: integer
-            - score: integer
+    Description: Breadth First Search Algorithm for Level 1
+    Input:
+        - map: 2D array of integers
+        - start: tuple of integers (pacman's starting position)
+        - pacman_pos: tuple of integers (food's position)
+    Output:
+        - finding_path: list of tuples
+        - finding_path_length: integer
+        - score: integer
     """
     # Initialize variables
     queue = deque()
@@ -30,7 +31,13 @@ def bfs(map, map_size, pacman_pos):
     visited.add(pacman_pos)
     parent = {}
     path = []
+    ghost_paths = []
     score = 0
+
+    # Define ghost_paths dict
+    for row_id, row in enumerate(map):
+        for col_id, _ in enumerate(row):
+            ghost_paths.append({"mat_pos": (row_id, col_id), "path": []})
 
     # Loop until queue is empty
     while queue:
@@ -47,7 +54,7 @@ def bfs(map, map_size, pacman_pos):
             path.reverse()
             # Set score = 1
             score += 1
-            return path, len(path), score
+            return path, len(path), ghost_paths, score
 
         # Get the neighbors of the node
         neighbors = get_neighbors(map, map_size, node)
@@ -61,7 +68,8 @@ def bfs(map, map_size, pacman_pos):
                 visited.add(neighbor)
                 parent[neighbor] = node
     # if all nodes in frontier (queue) are visited and the goal is not found (score = 0)
-    return path, len(path), score
+    return path, len(path), ghost_paths, score
+
 
 def get_neighbors(map, map_size, node):
     """Get the neighbors of the node
