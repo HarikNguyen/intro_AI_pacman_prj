@@ -28,6 +28,7 @@ else:
     _canvas_tfonts = ["times", "lucidasans-24"]
     pass  # XXX need defaults here
 
+
 # Define colors
 def format_color(r, g, b):
     """Format the color
@@ -99,10 +100,11 @@ def _destroy_window(event=None):
     _root_window.quit()
     _root_window = None
 
+
 def draw_background():
     # Draw background (background is the polygon)
     corners = [(0, 0), (0, _canvas_ys), (_canvas_xs, _canvas_ys), (_canvas_xs, 0)]
-    polygon(corners, _canvas_color, _canvas_color,smoothed=False)
+    polygon(corners, _canvas_color, _canvas_color, smoothed=False)
 
 
 def refresh():
@@ -124,25 +126,30 @@ def sleep(seconds):
         _root_window.after(int(1000 * seconds), _root_window.quit)
         _root_window.mainloop()
 
+
 def wait_for_close():
     """Wait for user click x button to close the window or press Esc key"""
     _root_window.bind("<Escape>", _destroy_window)
     _root_window.mainloop()
 
+
 def bind_esc_to_quit():
     _root_window.bind("<Escape>", _destroy_window)
+
 
 #######################################################################################################
 ########################################### SHAPE FUNCTIONS ###########################################
 ################################## Define functions for shape drawing #################################
 #######################################################################################################
 
+
 def matrix_to_screen(mat_point, map_size, grid_size):
-        ( x, y ) = mat_point
-        x = (x + 1)*grid_size
-        y = (y + 1)*grid_size
-        screen_point = ( x, y )
-        return screen_point
+    (x, y) = mat_point
+    x = (x + 1) * grid_size
+    y = (y + 1) * grid_size
+    screen_point = (x, y)
+    return screen_point
+
 
 def polygon(
     coords, outline_color, fill_color=None, filled=True, smoothed=True, behind=0
@@ -252,8 +259,10 @@ def text(
         x, y, fill=color, text=contents, font=font, anchor=anchor
     )
 
+
 def add_2_point(point1, point2):
-    return(point1[0] + point2[0], point1[1] + point2[1])
+    return (point1[0] + point2[0], point1[1] + point2[1])
+
 
 #######################################################################################################
 ####################################### SHAPE ACTION FUNCTIONS ########################################
@@ -399,3 +408,12 @@ def move_circle(
 
     # Move to x0, y0
     move_to(id, x0, y0)
+
+
+def remove_from_screen(
+    id,
+    d_o_e=lambda arg: _root_window.dooneevent(arg),
+    d_w=tk._tkinter.DONT_WAIT,
+):
+    _canvas.delete(id)
+    d_o_e(d_w)

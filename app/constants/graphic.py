@@ -45,8 +45,8 @@ PACMAN_SCALE = 0.5
 #pacman_speed = 0.25
 
 # Food
-FOOD_COLOR = format_color(1,1,1)
-FOOD_SIZE = 0.1
+FOOD_COLOR = format_color(245,208,240)
+FOOD_SIZE = 0.14
 
 # Drawing walls
 WALL_RADIUS = 0.15

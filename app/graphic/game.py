@@ -33,6 +33,9 @@ def draw_pane(
     pacman_id = draw_pacman(map, map_size, pacman_pos, grid_size)
     refresh()
 
+    # Draw food
+    food_ids = draw_food(map, map_size, grid_size)
+
     bind_esc_to_quit()
 
     return pacman_id, [], []
