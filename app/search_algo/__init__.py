@@ -1,7 +1,7 @@
+from app.constants import ALGO_NAME
 
-from  app.constants import ALGO_NAME
 
-def search_algo(algo_name, map, map_size, pacman_pos, level = 1):
+def search_algo(algo_name, map, map_size, pacman_pos, level=1):
     """Search algorithm
 
     Args:
@@ -14,11 +14,12 @@ def search_algo(algo_name, map, map_size, pacman_pos, level = 1):
 
     # Check if the algorithm is defined in constants.py
     if algo_name not in ALGO_NAME:
-        raise Exception('Algorithm name is not defined in constants.py')
+        raise Exception("Algorithm name is not defined in constants.py")
 
     # Import the search algorithm
     from importlib import import_module
-    algo = import_module(f'app.search_algo.level{level}.{algo_name}')
+
+    algo = import_module(f"app.search_algo.level{level}.{algo_name}")
 
     algo_func = getattr(algo, algo_name)
 

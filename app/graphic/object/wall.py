@@ -1,3 +1,6 @@
+"""This module contains functions to draw wall from screen
+"""
+
 from app.utils.graphic import *
 from app.constants.graphic import *
 from app.constants import *

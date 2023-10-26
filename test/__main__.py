@@ -1,4 +1,3 @@
-
 import os
 import sys
 
@@ -10,7 +9,7 @@ from test_bfs_lv1 import test_bfs_lv1
 from test_bfs_lv2 import test_bfs_lv2
 from test_graphic import test_graphic
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # test_read_input()
     # test_bfs_lv1()
     # test_bfs_lv2()

@@ -13,6 +13,22 @@ from .object import *
 def draw_pane(
     map, map_size, pacman_pos, grid_size=DEFAULT_GRID_SIZE, zoom=1.0, time_frame=0.0
 ):
+    """Draw pacman pane to window (wall, pacman, ghosts, foods)
+
+    Args:
+        map (list of list): map (matrix)
+        map_size (tuple of int): (map_col, map_row)
+        pacman_pos (tuple of int): (row_id, col_id)
+        grid_size (float, optional): grid size on screen. Defaults to DEFAULT_GRID_SIZE.
+        zoom (float, optional): zoom map (RECOMMEND DON'T CHANGE). Defaults to 1.0.
+        time_frame (float, optional): Time per frame. Defaults to 0.0.
+
+    Returns:
+        pacman_id (int): pacman_canvas_object id
+        ghost_ids (list): list of {key: (ghost's position in matrix), id: ghost canvas object id}
+        food_ids (list): list of {key: (food's position in matrix), id: food canvas object id}
+
+    """
     # Init info pane
     grid_size = zoom * grid_size
     font_size = 24
@@ -54,6 +70,19 @@ def play_game(
     extract_score,
     time_frame=0.0,
 ):
+    """play or implement all action of pacman, food, score and ghosts based on the returned results by search algorithm
+
+    Args:
+        map_size (tuple of int): (map_col, map_row)
+        pacman_id (int): pacman_canvas_object id
+        ghost_ids (list): list of {key: (ghost's position in matrix), id: ghost canvas object id}
+        food_ids (list): list of {key: (food's position in matrix), id: food canvas object id}
+        pacman_path (list of tuple): pacman_path
+        ghost_paths (list of list of tuple): ghost_paths
+        extract_score (function): extract score from pacman_path
+        time_frame (float, optional): Time per frame. Defaults to 0.0.
+    """
+
     # define cur_score = 0
     curr_score = 0
 
