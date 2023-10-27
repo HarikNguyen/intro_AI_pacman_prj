@@ -53,7 +53,7 @@ def draw_pane(
     food_ids = draw_food(map, map_size, grid_size)
 
     # Draw ghost
-    ghost_ids = []
+    ghost_ids = draw_all_ghost(map, map_size, grid_size)
 
     bind_esc_to_quit()
 
@@ -78,23 +78,19 @@ def play_game(
         ghost_ids (list): list of {key: (ghost's position in matrix), id: ghost canvas object id}
         food_ids (list): list of {key: (food's position in matrix), id: food canvas object id}
         pacman_path (list of tuple): pacman_path
-        ghost_paths (list of list of tuple): ghost_paths
+        ghost_paths (list of dict): ghost_paths list({"mat_pos": (row_id, col_id), "path": ghost_paths(list of tuple)})
         extract_score (function): extract score from pacman_path
         time_frame (float, optional): Time per frame. Defaults to 0.0.
     """
 
     # define cur_score = 0
     curr_score = 0
-
     # convert pacman_path to direction_routing
     pacman_routing = convert_path_to_direction_routing(pacman_path)
 
     # each time frame update step by step
     frame_no = 0  # frame id counted when play
     while True:
-        # check if pacman stop
-        if frame_no == len(pacman_routing):
-            wait_for_close()
 
         # pacman move
         pacman_direction = pacman_routing[frame_no]
@@ -103,22 +99,26 @@ def play_game(
             pacman_path[frame_no][X],
         )  # matrix (x, y) --> screen (y,x)
         move_pacman(pacman_id, map_size, pacman_mat_pos, pacman_direction)
+        
         # pacman eat food
         if pacman_path[frame_no] in list(food["key"] for food in food_ids):
             food_ids = remove_food(food_ids, pacman_path[frame_no])
             curr_score += 1
+        
         # ghost move
-        # for ghost_id, ghost_path in zip(ghost_ids, ghost_paths):
-        #     ghost_direction = convert_path_to_direction_routing(ghost_path)[frame_no]
-        #     move_pacman(ghost_id, ghost_path[frame_no], ghost_direction)
-        #     refresh()
 
         # update frame id
         frame_no += 1
 
+         # check if pacman stop
+        if frame_no == len(pacman_routing):
+            break
+
         # wait for time_frame
         sleep(time_frame)
 
+    # wait for close
+    wait_for_close()
 
 def convert_path_to_direction_routing(path):
     direction_routing = [STOP]
