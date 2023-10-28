@@ -30,11 +30,11 @@ def draw_pane(
 
     """
     # Init info pane
-    grid_size = zoom * grid_size
+    grid_size = grid_size
     font_size = 24
     text_color = PACMAN_COLOR
-    width = (map_size[Y] + 2) * grid_size
-    base = (map_size[X] + 1) * grid_size
+    width = (map_size[Y] + 1) * grid_size * zoom
+    base = (map_size[X] + 1) * grid_size * zoom
     height = base + INFO_PANE_HEIGHT
     screen_size = (width, height)
 
@@ -42,7 +42,7 @@ def draw_pane(
     graphic_init(width, height, background_color=BACKGROUND_COLOR)
 
     # Draw walls
-    draw_wall(map, map_size, grid_size)
+    draw_wall(map, map_size, grid_size, zoom)
     refresh()
 
     # Draw pacman
@@ -50,7 +50,7 @@ def draw_pane(
     refresh()
 
     # Draw food
-    food_ids = draw_food(map, map_size, grid_size)
+    food_ids = draw_food(map, map_size, grid_size, zoom)
 
     # Draw ghost
     ghost_ids = draw_all_ghost(map, map_size, grid_size, zoom)
@@ -116,6 +116,8 @@ def play_game(
             }
         )
 
+    print(ghost_routing)
+
     # each time frame update step by step
     frame_no = 0  # frame id counted when play
     while True:
@@ -144,21 +146,15 @@ def play_game(
             if pacman_path[frame_no][X] == ghost_mat_pos[X] and pacman_path[frame_no][Y] == ghost_mat_pos[Y]:
                 is_fail = True
                 is_finish = True
-                # edit score table
-                print(is_finish, is_fail, curr_score, extract_score)
-                print("FAIL...")
-                break
-        
+
+        # update score table
+
         # update frame id
         frame_no += 1
 
         # check if pacman win
         if len(food_ids) == 0 or curr_score == extract_score:
             is_finish = True
-            # update score table
-            print(is_finish, is_fail, curr_score, extract_score)
-            print("WIN...")
-            break
 
         # check if pacman stop
         if frame_no == len(pacman_routing):
