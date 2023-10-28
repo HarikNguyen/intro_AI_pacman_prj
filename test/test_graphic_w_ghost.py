@@ -59,7 +59,7 @@ def test_graphic_w_ghost():
 
     try:
         # Draw the initial state of the game
-        pac_man_id, ghost_ids, food_ids = draw_pane(map, map_size, pacman_pos, zoom=1)
+        pac_man_id, ghost_ids, food_ids = draw_pane(map, map_size, pacman_pos, zoom=0.7)
     except Exception as e:
         print("Test failed")
         print(e)
@@ -74,7 +74,7 @@ def test_graphic_w_ghost():
             ghost_paths,
             score,
             time_frame=0.3,
-            zoom=1
+            zoom=0.7
         )
     except Exception as e:
         print("Test failed")
