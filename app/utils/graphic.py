@@ -146,11 +146,11 @@ def bind_esc_to_quit():
 #######################################################################################################
 
 
-def matrix_to_screen(mat_point, map_size, grid_size):
+def matrix_to_screen(mat_point, map_size, grid_size, zoom=1.0):
     """Convert matrix point (row_id, col_id) to screen point (x, y) where x = col_id * grid_size, y = row_id * grid_size"""
     (x, y) = mat_point
-    x = (x + 1) * grid_size
-    y = (y + 1) * grid_size
+    x = (x + 1) * grid_size * zoom
+    y = (y + 1) * grid_size * zoom
     screen_point = (x, y)
     return screen_point
 

@@ -14,10 +14,10 @@ def gen_test_case():
             f.write("10 20\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1 \n")
-            f.write("1 0 0 0 0 0 1 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
+            f.write("1 0 0 3 0 0 1 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
             f.write("1 1 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 0\n")
             f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 2\n")
-            f.write("1 1 0 1 1 0 3 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
             f.write("1 1 0 0 0 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 3 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1\n")
@@ -54,11 +54,12 @@ def test_graphic_w_ghost():
         print(e)
 
     # modify path and ghost_paths
-    ghost_paths = [{'mat_pos': (5, 6), 'path': [(5,6),(5,5),(6,5),(7,5),(6,5)]}, {'mat_pos': (8, 3), 'path': [(8,3),(8,2),(8,3)]}]
+    ghost_paths = [{'mat_pos': (2, 3), 'path': []}, {'mat_pos': (8, 3), 'path': [(8,3),(8,2),(8,3),(7,3)]}]
+    path = [(1,1),(2,1),(2,2),(2,3)]
 
     try:
         # Draw the initial state of the game
-        pac_man_id, ghost_ids, food_ids = draw_pane(map, map_size, pacman_pos)
+        pac_man_id, ghost_ids, food_ids = draw_pane(map, map_size, pacman_pos, zoom=1)
     except Exception as e:
         print("Test failed")
         print(e)
@@ -73,6 +74,7 @@ def test_graphic_w_ghost():
             ghost_paths,
             score,
             time_frame=0.3,
+            zoom=1
         )
     except Exception as e:
         print("Test failed")

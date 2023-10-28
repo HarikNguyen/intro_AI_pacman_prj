@@ -9,17 +9,19 @@ from app.constants import *
 ghost_colors = []
 
 
-def draw_ghost(ghost_mat_pos, map_size, grid_size=DEFAULT_GRID_SIZE):
+def draw_ghost(ghost_mat_pos, map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
     global ghost_colors
-    screen_pos_x, screen_pos_y = matrix_to_screen(ghost_mat_pos, map_size, grid_size)
+    screen_pos_x, screen_pos_y = matrix_to_screen(
+        ghost_mat_pos, map_size, grid_size, zoom
+    )
 
     # Draw ghost body
     ghost_body_coords = []
     for x, y in GHOST_SHAPE:
         ghost_body_coords.append(
             (
-                x * grid_size * GHOST_SIZE + screen_pos_x,
-                y * grid_size * GHOST_SIZE + screen_pos_y,
+                x * grid_size * GHOST_SIZE * zoom + screen_pos_x,
+                y * grid_size * GHOST_SIZE * zoom + screen_pos_y,
             )
         )
 
@@ -47,37 +49,37 @@ def draw_ghost(ghost_mat_pos, map_size, grid_size=DEFAULT_GRID_SIZE):
 
     left_eye_id = circle(
         (
-            screen_pos_x + grid_size * GHOST_SIZE * (-0.3 + dx / 1.5),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy / 1.5),
+            screen_pos_x + grid_size * GHOST_SIZE * zoom * (-0.3 + dx / 1.5),
+            screen_pos_y - grid_size * GHOST_SIZE * zoom * (0.3 - dy / 1.5),
         ),
-        grid_size * GHOST_SIZE * 0.2,
+        grid_size * GHOST_SIZE * zoom * 0.2,
         WHITE,
         WHITE,
     )
     right_eye_id = circle(
         (
-            screen_pos_x + grid_size * GHOST_SIZE * (0.3 + dx / 1.5),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy / 1.5),
+            screen_pos_x + grid_size * GHOST_SIZE * zoom * (0.3 + dx / 1.5),
+            screen_pos_y - grid_size * GHOST_SIZE * zoom * (0.3 - dy / 1.5),
         ),
-        grid_size * GHOST_SIZE * 0.2,
+        grid_size * GHOST_SIZE * zoom * 0.2,
         WHITE,
         WHITE,
     )
     ghost_left_pupil_id = circle(
         (
-            screen_pos_x + grid_size * GHOST_SIZE * (-0.3 + dx),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy),
+            screen_pos_x + grid_size * GHOST_SIZE * zoom * (-0.3 + dx),
+            screen_pos_y - grid_size * GHOST_SIZE * zoom * (0.3 - dy),
         ),
-        grid_size * GHOST_SIZE * 0.08,
+        grid_size * GHOST_SIZE * zoom * 0.08,
         BLACK,
         BLACK,
     )
     ghost_right_pupil_id = circle(
         (
-            screen_pos_x + grid_size * GHOST_SIZE * (0.3 + dx),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy),
+            screen_pos_x + grid_size * GHOST_SIZE * zoom * (0.3 + dx),
+            screen_pos_y - grid_size * GHOST_SIZE * zoom * (0.3 - dy),
         ),
-        grid_size * GHOST_SIZE * 0.08,
+        grid_size * GHOST_SIZE * zoom * 0.08,
         BLACK,
         BLACK,
     )
@@ -93,13 +95,13 @@ def draw_ghost(ghost_mat_pos, map_size, grid_size=DEFAULT_GRID_SIZE):
     return ghost_id_list
 
 
-def draw_all_ghost(map, map_size, grid_size=DEFAULT_GRID_SIZE):
+def draw_all_ghost(map, map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
     ghost_ids = []
     for row_id, row in enumerate(map):
         for col_id, cell in enumerate(row):
             if cell == MONSTER:
                 ghost_mat_pos = (col_id, row_id)
-                ghost_id_list = draw_ghost(ghost_mat_pos, map_size, grid_size)
+                ghost_id_list = draw_ghost(ghost_mat_pos, map_size, grid_size, zoom)
                 ghost_id_dict = {"key": (row_id, col_id), "id": ghost_id_list}
                 ghost_ids.append(ghost_id_dict)
 
@@ -107,92 +109,28 @@ def draw_all_ghost(map, map_size, grid_size=DEFAULT_GRID_SIZE):
 
 
 def move_ghost(
-    ghost_parts_id, ghost_mat_position, direction, map_size, grid_size=DEFAULT_GRID_SIZE
+    ghost_parts_id,
+    ghost_mat_position,
+    direction,
+    map_size,
+    grid_size=DEFAULT_GRID_SIZE,
+    zoom=1.0,
 ):
-    # move eyes by direction
-    move_eyes(ghost_parts_id[1:], ghost_mat_position, direction, map_size, grid_size)
-    refresh()
-
     # move body by direction
-    ghost_body_step = get_ghost_step(direction, grid_size)
+    ghost_body_step = get_ghost_step(direction, grid_size, zoom)
     for ghost_part_id in ghost_parts_id:
         move_by(ghost_part_id, ghost_body_step)
     refresh()
 
-    # move eyes by direction (stop)
-    move_eyes(ghost_parts_id[1:], ghost_mat_position, STOP, map_size, grid_size)
-    refresh()
 
-
-def move_eyes(
-    eye_id, ghost_mat_position, direction, map_size, grid_size=DEFAULT_GRID_SIZE
-):
-    screen_pos_x, screen_pos_y = matrix_to_screen(
-        (ghost_mat_position[Y], ghost_mat_position[X]), map_size, grid_size
-    )
-
-    dx = 0
-    dy = 0
-
+def get_ghost_step(direction, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
     if direction == UP:
-        dy -= 0.2
+        return (0, -MOVE_STEP * grid_size * zoom)
     elif direction == DOWN:
-        dy += 0.2
+        return (0, MOVE_STEP * grid_size * zoom)
     elif direction == LEFT:
-        dx -= 0.2
+        return (-MOVE_STEP * grid_size * zoom, 0)
     elif direction == RIGHT:
-        dx += 0.2
-    else:
-        dx = 0
-        dy = 0
-
-    left_eye_id = eye_id[0]
-    right_eye_id = eye_id[1]
-    left_pupil_id = eye_id[2]
-    right_pupil_id = eye_id[3]
-
-    move_circle(
-        left_eye_id,
-        (
-            screen_pos_x + grid_size * GHOST_SIZE * (-0.3 + dx / 1.5),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy / 1.5),
-        ),
-        grid_size * GHOST_SIZE * 0.2,
-    )
-    move_circle(
-        right_eye_id,
-        (
-            screen_pos_x + grid_size * GHOST_SIZE * (0.3 + dx / 1.5),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy / 1.5),
-        ),
-        grid_size * GHOST_SIZE * 0.2,
-    )
-    move_circle(
-        left_pupil_id,
-        (
-            screen_pos_x + grid_size * GHOST_SIZE * (-0.3 + dx),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy),
-        ),
-        grid_size * GHOST_SIZE * 0.08,
-    )
-    move_circle(
-        right_pupil_id,
-        (
-            screen_pos_x + grid_size * GHOST_SIZE * (0.3 + dx),
-            screen_pos_y - grid_size * GHOST_SIZE * (0.3 - dy),
-        ),
-        grid_size * GHOST_SIZE * 0.08,
-    )
-
-
-def get_ghost_step(direction, grid_size=DEFAULT_GRID_SIZE):
-    if direction == UP:
-        return (0, -MOVE_STEP * grid_size)
-    elif direction == DOWN:
-        return (0, MOVE_STEP * grid_size)
-    elif direction == LEFT:
-        return (-MOVE_STEP * grid_size, 0)
-    elif direction == RIGHT:
-        return (MOVE_STEP * grid_size, 0)
+        return (MOVE_STEP * grid_size * zoom, 0)
     else:
         return (0, 0)

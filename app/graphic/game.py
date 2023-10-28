@@ -46,14 +46,14 @@ def draw_pane(
     refresh()
 
     # Draw pacman
-    pacman_id = draw_pacman(map, map_size, pacman_pos, grid_size)
+    pacman_id = draw_pacman(map, map_size, pacman_pos, grid_size, zoom)
     refresh()
 
     # Draw food
     food_ids = draw_food(map, map_size, grid_size)
 
     # Draw ghost
-    ghost_ids = draw_all_ghost(map, map_size, grid_size)
+    ghost_ids = draw_all_ghost(map, map_size, grid_size, zoom)
 
     bind_esc_to_quit()
 
@@ -68,6 +68,8 @@ def play_game(
     pacman_path,
     ghost_paths,
     extract_score,
+    grid_size=DEFAULT_GRID_SIZE,
+    zoom=1.0,
     time_frame=0.0,
 ):
     """play or implement all action of pacman, food, score and ghosts based on the returned results by search algorithm
@@ -82,35 +84,83 @@ def play_game(
         extract_score (function): extract score from pacman_path
         time_frame (float, optional): Time per frame. Defaults to 0.0.
     """
-
+    # define variable
+    is_finish = False
+    is_fail = False
     # define cur_score = 0
     curr_score = 0
     # convert pacman_path to direction_routing
     pacman_routing = convert_path_to_direction_routing(pacman_path)
+    # convert ghost_paths to direction_routing
+    ghost_routing = []
+    for ghost_id in ghost_ids:
+        ghost_routing_list = None
+        ghost_path = []
+        if (
+            len(get_ghost_path(ghost_paths, ghost_id["key"])) == 0
+            or get_ghost_path(ghost_paths, ghost_id["key"]) == STOP
+        ):
+            ghost_routing_list = [STOP] * len(pacman_routing)
+            ghost_path = [ghost_id["key"]] * len(pacman_routing)
+        else:
+            ghost_routing_list = convert_path_to_direction_routing(
+                get_ghost_path(ghost_paths, ghost_id["key"])
+            )
+            ghost_path = get_ghost_path(ghost_paths, ghost_id["key"])
+        ghost_routing.append(
+            {
+                "key": ghost_id["key"],
+                "ghost_id_list": ghost_id["id"],
+                "ghost_routing": ghost_routing_list,
+                "ghost_path": ghost_path,
+            }
+        )
 
     # each time frame update step by step
     frame_no = 0  # frame id counted when play
     while True:
-
         # pacman move
         pacman_direction = pacman_routing[frame_no]
         pacman_mat_pos = (
             pacman_path[frame_no][Y],
             pacman_path[frame_no][X],
         )  # matrix (x, y) --> screen (y,x)
-        move_pacman(pacman_id, map_size, pacman_mat_pos, pacman_direction)
-        
+        move_pacman(pacman_id, map_size, pacman_mat_pos, pacman_direction, grid_size, zoom)
+
         # pacman eat food
         if pacman_path[frame_no] in list(food["key"] for food in food_ids):
             food_ids = remove_food(food_ids, pacman_path[frame_no])
             curr_score += 1
-        
-        # ghost move
 
+        # ghost move
+        for ghost_ in ghost_routing:
+            ghost_mat_pos = ghost_["ghost_path"][frame_no]
+            ghost_id_list = ghost_["ghost_id_list"]
+            ghost_direction = ghost_["ghost_routing"][frame_no]
+            move_ghost(
+                ghost_id_list, ghost_mat_pos, ghost_direction, map_size, grid_size, zoom
+            )
+            # check if pacman and ghost meet
+            if pacman_path[frame_no][X] == ghost_mat_pos[X] and pacman_path[frame_no][Y] == ghost_mat_pos[Y]:
+                is_fail = True
+                is_finish = True
+                # edit score table
+                print(is_finish, is_fail, curr_score, extract_score)
+                print("FAIL...")
+                break
+        
         # update frame id
         frame_no += 1
 
-         # check if pacman stop
+        # check if pacman win
+        if len(food_ids) == 0 or curr_score == extract_score:
+            is_finish = True
+            # update score table
+            print(is_finish, is_fail, curr_score, extract_score)
+            print("WIN...")
+            break
+
+        # check if pacman stop
         if frame_no == len(pacman_routing):
             break
 
@@ -119,6 +169,7 @@ def play_game(
 
     # wait for close
     wait_for_close()
+
 
 def convert_path_to_direction_routing(path):
     direction_routing = [STOP]
@@ -140,6 +191,11 @@ def convert_path_to_direction_routing(path):
         else:
             pass
 
-    direction_routing[-1] = STOP
-
     return direction_routing
+
+
+def get_ghost_path(ghost_paths, ghost_mat_pos):
+    for ghost_path in ghost_paths:
+        if ghost_path["mat_pos"] == ghost_mat_pos:
+            return ghost_path["path"]
+    return STOP
