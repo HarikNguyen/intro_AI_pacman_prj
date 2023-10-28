@@ -19,3 +19,11 @@
 ## Cách kiểm tra:
 
 - Các bạn có thể tham khảo ở thư mục `/test`
+
+## Require output:
+
+- Output: path, len(path), ghost_paths, score
+- path: List of matrix position of pacman (row_id, col_id)
+- len(path): Length of **path**
+- ghost_paths: List of list of matrix position of ghost (row_id, col_id). Ex: [{"mat_pos": (1, 2), "path": [(1, 2), (1, 3), (1, 4)]}, {"mat_pos": (2, 3), "path": [(2, 3), (2, 4), (2, 5)]}]
+- score: Score of pacman
