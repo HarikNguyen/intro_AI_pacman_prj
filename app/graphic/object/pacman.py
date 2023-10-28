@@ -6,8 +6,8 @@ from app.constants.graphic import *
 from app.constants import *
 
 
-def draw_pacman(map, map_size, pacman_start_pos, grid_size=DEFAULT_GRID_SIZE):
-    screen_pos = matrix_to_screen(pacman_start_pos, map_size, grid_size)
+def draw_pacman(map, map_size, pacman_start_pos, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
+    screen_pos = matrix_to_screen(pacman_start_pos, map_size, grid_size, zoom)
     endpoints = get_endpoints()
 
     width = PACMAN_OUTLINE_WIDTH
@@ -16,7 +16,7 @@ def draw_pacman(map, map_size, pacman_start_pos, grid_size=DEFAULT_GRID_SIZE):
 
     return circle(
         screen_pos,
-        PACMAN_SCALE * grid_size,
+        PACMAN_SCALE * grid_size * zoom,
         outline_color=outline_color,
         fill_color=fill_color,
         endpoints=endpoints,
@@ -40,14 +40,14 @@ def get_endpoints(direction=STOP, degree=120):
 
 
 def move_pacman(
-    pacman_id, map_size, pacman_pos, direction, grid_size=DEFAULT_GRID_SIZE
+    pacman_id, map_size, pacman_pos, direction, grid_size=DEFAULT_GRID_SIZE, zoom=1.0
 ):
     cur_pacman_pos = pacman_pos
     max_degree = 110
 
-    screen_pos = matrix_to_screen(cur_pacman_pos, map_size, grid_size)
+    screen_pos = matrix_to_screen(cur_pacman_pos, map_size, grid_size, zoom)
     if direction != STOP:
         endpoints = get_endpoints(direction, max_degree)
     else:
         endpoints = get_endpoints()
-    move_circle(pacman_id, screen_pos, PACMAN_SCALE * grid_size, endpoints)
+    move_circle(pacman_id, screen_pos, PACMAN_SCALE * grid_size * zoom, endpoints)
