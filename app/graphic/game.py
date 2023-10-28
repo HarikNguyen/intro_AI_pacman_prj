@@ -55,9 +55,12 @@ def draw_pane(
     # Draw ghost
     ghost_ids = draw_all_ghost(map, map_size, grid_size, zoom)
 
+    # Draw score table
+    score_table_id = draw_score_table_text(map_size, grid_size, zoom)
+
     bind_esc_to_quit()
 
-    return pacman_id, ghost_ids, food_ids
+    return pacman_id, ghost_ids, food_ids, score_table_id
 
 
 def play_game(
@@ -65,6 +68,7 @@ def play_game(
     pacman_id,
     ghost_ids,
     food_ids,
+    score_table_id,
     pacman_path,
     ghost_paths,
     extract_score,
@@ -85,7 +89,7 @@ def play_game(
         time_frame (float, optional): Time per frame. Defaults to 0.0.
     """
     # define variable
-    is_finish = False
+    is_win = False
     is_fail = False
     # define cur_score = 0
     curr_score = 0
@@ -116,8 +120,6 @@ def play_game(
             }
         )
 
-    print(ghost_routing)
-
     # each time frame update step by step
     frame_no = 0  # frame id counted when play
     while True:
@@ -127,7 +129,9 @@ def play_game(
             pacman_path[frame_no][Y],
             pacman_path[frame_no][X],
         )  # matrix (x, y) --> screen (y,x)
-        move_pacman(pacman_id, map_size, pacman_mat_pos, pacman_direction, grid_size, zoom)
+        move_pacman(
+            pacman_id, map_size, pacman_mat_pos, pacman_direction, grid_size, zoom
+        )
 
         # pacman eat food
         if pacman_path[frame_no] in list(food["key"] for food in food_ids):
@@ -143,18 +147,21 @@ def play_game(
                 ghost_id_list, ghost_mat_pos, ghost_direction, map_size, grid_size, zoom
             )
             # check if pacman and ghost meet
-            if pacman_path[frame_no][X] == ghost_mat_pos[X] and pacman_path[frame_no][Y] == ghost_mat_pos[Y]:
+            if (
+                pacman_path[frame_no][X] == ghost_mat_pos[X]
+                and pacman_path[frame_no][Y] == ghost_mat_pos[Y]
+            ):
                 is_fail = True
-                is_finish = True
-
-        # update score table
 
         # update frame id
         frame_no += 1
 
         # check if pacman win
         if len(food_ids) == 0 or curr_score == extract_score:
-            is_finish = True
+            is_win = True
+
+        # update score table
+        update_score(score_table_id, curr_score, is_fail, is_win)
 
         # check if pacman stop
         if frame_no == len(pacman_routing):

@@ -14,13 +14,13 @@ def gen_test_case():
             f.write("10 20\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1 \n")
-            f.write("1 0 0 3 0 0 1 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
+            f.write("1 0 0 0 0 0 1 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
             f.write("1 1 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 0\n")
             f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 2\n")
-            f.write("1 1 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 1 1 0 3 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
             f.write("1 1 0 0 0 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
-            f.write("1 0 0 3 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1\n")
+            f.write("1 0 2 3 1 0 1 0 0 0 1 0 0 2 0 0 0 0 1 1\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 1\n")
             f.close()
@@ -31,7 +31,7 @@ def undo_test_case():
     (MAP_DIR / ".map1.txt").unlink()
 
 
-def test_graphic_w_ghost():
+def test_graphic_v2():
 
     # Generate test cases
     gen_test_case()
@@ -53,13 +53,9 @@ def test_graphic_w_ghost():
         print("Test failed")
         print(e)
 
-    # modify path and ghost_paths
-    ghost_paths = [{'mat_pos': (2, 3), 'path': []}, {'mat_pos': (8, 3), 'path': [(8,3),(8,2),(8,3),(7,3)]}]
-    path = [(1,1),(2,1),(2,2),(2,3)]
-
     try:
         # Draw the initial state of the game
-        pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos, zoom=0.7)
+        pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos)
     except Exception as e:
         print("Test failed")
         print(e)
@@ -75,11 +71,10 @@ def test_graphic_w_ghost():
             ghost_paths,
             score,
             time_frame=0.3,
-            zoom=0.7
         )
     except Exception as e:
-        print("Test failed")
         print(e)
+        pass
 
     # Undo test cases
     undo_test_case()

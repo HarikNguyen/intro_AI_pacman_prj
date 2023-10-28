@@ -15,6 +15,8 @@ MOVE_STEP = 1
 WHITE = format_color(1.0, 1.0, 1.0)
 BLACK = format_color(0.0, 0.0, 0.0)
 
+FAIL_COLOR = format_color(.9, 0.0, 0.0)
+WIN_COLOR = format_color(255.0 / 255.0, 255.0 / 255.0, 61.0 / 255.0)
 #######################################################################################################################
 ########################################### PACMAN GRAPHIC ############################################################
 
@@ -22,7 +24,7 @@ PACMAN_OUTLINE_WIDTH = 2
 PACMAN_CAPTURE_OUTLINE_WIDTH = 4
 PACMAN_COLOR_R = 255.0 / 255.0
 PACMAN_COLOR_G = 255.0 / 255.0
-PACMAN_COLOR_B = 61.0 / 255
+PACMAN_COLOR_B = 61.0 / 255.0
 PACMAN_COLOR = format_color(PACMAN_COLOR_R, PACMAN_COLOR_G, PACMAN_COLOR_B)
 PACMAN_SCALE = 0.5
 # pacman_speed = 0.25
