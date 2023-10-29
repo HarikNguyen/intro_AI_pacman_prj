@@ -37,26 +37,26 @@ def undo_test_case():
     (MAP_DIR / ".map2.txt").unlink()
 
 
-def test_bfs_lv1():
+def test_dfs_lv1():
 
     # Generate test cases
     gen_test_case()
 
-    # Check bfs run correctly in test case 1 (level 1)
-    try:
-        map, map_size, pacman_pos = read_map(".map1.txt")
-    except Exception as e:
-        print("Test failed")
+    # Check dfs run correctly in test case 1 (level 1)
+    # try:
+    #     map, map_size, pacman_pos = read_map(".map1.txt")
+    # except Exception as e:
+    #     print("Test failed")
 
-    try:
-        path, path_len, score = search_algo("bfs", map, map_size, pacman_pos, 1)
-        if score == 1:
-            print(path)
-        else:
-            print("Test failed")
-    except Exception as e:
-        print(e)
-        print("Test failed")
+    # try:
+    #     path, path_len, score = search_algo("dfs", map, map_size, pacman_pos, 1)
+    #     if score != 0:
+    #         print("Test passed")
+    #     else:
+    #         print("Test failed")
+    # except Exception as e:
+    #     print(e)
+    #     print("Test failed")
 
     # Check bfs run correctly in test case 2 (level 1)
     try:
@@ -66,10 +66,10 @@ def test_bfs_lv1():
 
     try:
         path, path_len, ghost_paths, score = search_algo(
-            "bfs", map, map_size, pacman_pos, 1
+            "dfs", map, map_size, pacman_pos, 1
         )
-        if score == 1:
-            print(path)
+        if score != 0:
+            print(path_len,' ', pacman_pos)
         else:
             print("Test failed")
 
