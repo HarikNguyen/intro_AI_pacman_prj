@@ -15,6 +15,6 @@ if __name__ == "__main__":
     # test_read_input()
     # test_bfs_lv1()
     # test_bfs_lv2()
-    # test_graphic()
-    test_graphic_v2()
+    test_graphic()
+    # test_graphic_v2()
     # test_graphic_w_ghost()

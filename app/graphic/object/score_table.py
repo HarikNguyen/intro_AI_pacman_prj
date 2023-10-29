@@ -12,13 +12,16 @@ def draw_score_table_text(map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
 
     return score_table_id
 
-def update_score(score_table_id, score, is_fail=False, is_win=False):
+def update_score(score_table_id, score, is_fail=False, is_win=False, is_eat=False):
     # update score color
     if is_fail:
         change_color(score_table_id, FAIL_COLOR)
         change_text(score_table_id, "FAIL")
     elif is_win:
-        change_color(score_table_id, WIN_COLOR)
+        if is_eat:
+            change_color(score_table_id, WIN_COLOR)
+        else:
+            change_color(score_table_id, SCORE_COLOR)
         # update score text
         change_text(score_table_id, "SCORE: " + str(score))
     else:

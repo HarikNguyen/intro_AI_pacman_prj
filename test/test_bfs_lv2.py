@@ -82,7 +82,7 @@ def test_bfs_lv2():
         print("Test failed")
 
     try:
-        path, path_len, score = search_algo("bfs", map, map_size, pacman_pos, 2)
+        path, path_len, ghost_paths, score = search_algo("bfs", map, map_size, pacman_pos, 2)
         if score == 0:
             print("Test passed")
         else:
@@ -100,7 +100,7 @@ def test_bfs_lv2():
         print("Test failed")
 
     try:
-        path, path_len, score = search_algo("bfs", map, map_size, pacman_pos, 2)
+        path, path_len, ghost_paths, score = search_algo("bfs", map, map_size, pacman_pos, 2)
         if score == 0:
             print("Test passed")
         else:
