@@ -49,7 +49,7 @@ def test_bfs_lv1():
         print("Test failed")
 
     try:
-        path, path_len, score = search_algo("bfs", map, map_size, pacman_pos, 1)
+        path, path_len, ghost_paths, score = search_algo("bfs", map, map_size, pacman_pos, 1)
         if score == 1:
             print(path)
         else:

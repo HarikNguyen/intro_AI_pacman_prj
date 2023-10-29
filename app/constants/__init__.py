@@ -12,3 +12,7 @@ Y = 1
 
 # Define Algo_name list
 ALGO_NAME = ["bfs", "dfs", "ucs", "a_star"]
+
+# SCORE
+EAT_FOOD_SCORE = 20
+MOVE_SCORE = 1

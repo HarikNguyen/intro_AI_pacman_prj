@@ -91,6 +91,7 @@ def play_game(
     # define variable
     is_win = False
     is_fail = False
+    is_eat = False
     # define cur_score = 0
     curr_score = 0
     # convert pacman_path to direction_routing
@@ -136,7 +137,13 @@ def play_game(
         # pacman eat food
         if pacman_path[frame_no] in list(food["key"] for food in food_ids):
             food_ids = remove_food(food_ids, pacman_path[frame_no])
-            curr_score += 1
+            curr_score = update_current_score(curr_score, True)
+            is_eat = True
+        else:
+            # update state when pacman move
+            curr_score = update_current_score(curr_score)
+            is_eat = False
+
 
         # ghost move
         for ghost_ in ghost_routing:
@@ -152,6 +159,7 @@ def play_game(
                 and pacman_path[frame_no][Y] == ghost_mat_pos[Y]
             ):
                 is_fail = True
+            
 
         # update frame id
         frame_no += 1
@@ -161,7 +169,7 @@ def play_game(
             is_win = True
 
         # update score table
-        update_score(score_table_id, curr_score, is_fail, is_win)
+        update_score(score_table_id, curr_score, is_fail, is_win, is_eat)
 
         # check if pacman stop
         if frame_no == len(pacman_routing):
@@ -202,3 +210,11 @@ def get_ghost_path(ghost_paths, ghost_mat_pos):
         if ghost_path["mat_pos"] == ghost_mat_pos:
             return ghost_path["path"]
     return STOP
+
+
+def update_current_score(curr_score, is_eat_food=False):
+    if is_eat_food:
+        curr_score += EAT_FOOD_SCORE
+    else:
+        curr_score += MOVE_SCORE
+    return curr_score
