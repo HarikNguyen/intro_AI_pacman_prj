@@ -6,8 +6,11 @@ from app.constants.graphic import *
 from app.constants import *
 
 
-def draw_food(map, map_size, grid_size):
+def draw_food(map, map_size, grid_size, zoom=1.0):
     """Draw food to screen"""
+
+    # calculate grid_size by zoom
+    grid_size = grid_size * zoom
 
     food_ids = []
 

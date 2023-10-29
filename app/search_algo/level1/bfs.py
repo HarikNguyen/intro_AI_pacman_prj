@@ -9,7 +9,7 @@
 """
 
 from collections import deque
-from app.constants import WALL, FOOD, X, Y
+from app.constants import WALL, FOOD, X, Y, MONSTER
 
 
 def bfs(map, map_size, pacman_pos):
@@ -36,8 +36,9 @@ def bfs(map, map_size, pacman_pos):
 
     # Define ghost_paths dict
     for row_id, row in enumerate(map):
-        for col_id, _ in enumerate(row):
-            ghost_paths.append({"mat_pos": (row_id, col_id), "path": []})
+        for col_id, cell in enumerate(row):
+            if cell == MONSTER:
+                ghost_paths.append({"mat_pos": (row_id, col_id), "path": []})
 
     # Loop until queue is empty
     while queue:

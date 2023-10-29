@@ -6,10 +6,13 @@ from app.constants.graphic import *
 from app.constants import *
 
 
-def draw_wall(map, map_size, grid_size=DEFAULT_GRID_SIZE):
+def draw_wall(map, map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
     """
     Draw walls
     """
+    # update grid_size = grid_size * zoom
+    grid_size = grid_size * zoom
+    # draw each cell in map
     for y_id, row_block in enumerate(map):
         for x_id, cell in enumerate(row_block):
             if cell == WALL:  # cell is wall

@@ -12,6 +12,8 @@
 │   ├── constants/
 │   │   ├── __init__.py # Các hằng số, các tên thuật toán
 |   |-- graphic/ # Các file liên quan đến giao diện
+|   |-- |-- game.py # Chứa 2 hàm draw_pane và play_game để tạo và in ra giao diện
+|   |-- |-- object/ # Thư mục chứa các file liên quan đến các đối tượng trong game (pacman, ghost, food, ...)
 |   |-- maps/ Chứa các file map (tên file map có dạng map<index>.txt)
 |   |-- search_algo/ # Các thuật toán tìm kiếm
 |   |-- |-- level1/ # Các file triển khai thuật toán ở level 1

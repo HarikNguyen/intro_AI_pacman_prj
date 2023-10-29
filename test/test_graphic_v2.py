@@ -20,7 +20,7 @@ def gen_test_case():
             f.write("1 1 0 1 1 0 3 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
             f.write("1 1 0 0 0 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
-            f.write("1 0 0 3 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1\n")
+            f.write("1 0 2 3 1 0 1 0 0 0 1 0 0 2 0 0 0 0 1 1\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 1\n")
             f.close()
@@ -31,7 +31,7 @@ def undo_test_case():
     (MAP_DIR / ".map1.txt").unlink()
 
 
-def test_graphic():
+def test_graphic_v2():
 
     # Generate test cases
     gen_test_case()
