@@ -64,7 +64,7 @@ def test_bfs_lv2():
     # Generate test cases
     gen_test_case()
 
-    # Check bfs run correctly in test case 1 (level 1)
+    # Check search algo run correctly in test case 1 (level 1)
 
     try:
         map, map_size, pacman_pos = read_map(".map1.txt")
@@ -86,7 +86,7 @@ def test_bfs_lv2():
         print(e)
         print("Test failed")
 
-    # Check bfs run correctly in test case 2 (level 2)
+    # Check search algo run correctly in test case 2 (level 2)
 
     try:
         map, map_size, pacman_pos = read_map(".map2.txt")
@@ -109,7 +109,7 @@ def test_bfs_lv2():
         print(e)
         print("Test failed")
 
-    # Check bfs run correctly in test case 3 (level 2)
+    # Check search algo run correctly in test case 3 (level 2)
 
     try:
         map, map_size, pacman_pos = read_map(".map3.txt")

@@ -10,7 +10,7 @@
 
 from collections import deque
 
-from app.constants import WALL, FOOD, X, Y, MONSTER
+from app.constants import WALL, FOOD, X, Y, MONSTER, EAT_FOOD_SCORE, MOVE_SCORE
 from app.utils.algo_shared_func import get_neighbors, init_ghost_paths
 
 
@@ -43,13 +43,14 @@ def bfs(map, map_size, pacman_pos):
 
         # Check if the node is the goal
         if map[node[X]][node[Y]] == FOOD:
-            score += 20
+            # Update score upto EAT_FOOD_SCORE for each food
+            score += EAT_FOOD_SCORE
             # Backtrack to get the path
             while node != pacman_pos:
                 path.append(node)
                 node = parent[node]
-                # update score upto 1 for each step
-                score += 1
+                # update score upto MOVE_SCORE for each step
+                score += MOVE_SCORE
             path.append(pacman_pos)
             path.reverse()
             # Update score (add 1) for each step (except pacman's starting position)

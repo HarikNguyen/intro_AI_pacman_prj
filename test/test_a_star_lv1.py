@@ -3,7 +3,7 @@ from app.utils.read_map import read_map
 from app.search_algo import search_algo
 
 MAP_DIR = BASE_DIR / "app" / "maps"
-TEST_ALGO_NAME = "dfs"
+TEST_ALGO_NAME = "a_star"
 
 
 def gen_test_case():
@@ -44,7 +44,7 @@ def undo_test_case():
     (MAP_DIR / ".map2.txt").unlink()
 
 
-def test_dfs_lv1():
+def test_a_star_lv1():
     # Generate test cases
     gen_test_case()
 
@@ -58,7 +58,7 @@ def test_dfs_lv1():
         path, path_len, ghost_paths, score = search_algo(
             TEST_ALGO_NAME, map, map_size, pacman_pos, 1
         )
-        real_score = 39
+        real_score = 31
         if score != real_score:
             print("Test failed")
             print(path, score)

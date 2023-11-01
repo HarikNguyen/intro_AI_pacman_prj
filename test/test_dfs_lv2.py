@@ -64,7 +64,7 @@ def test_dfs_lv2():
     # Generate test cases
     gen_test_case()
 
-    # Check dfs run correctly in test case 1 (level 1)
+    # Check search algo run correctly in test case 1 (level 1)
 
     try:
         map, map_size, pacman_pos = read_map(".map1.txt")
@@ -75,7 +75,6 @@ def test_dfs_lv2():
         path, path_len, ghost_paths, score = search_algo(
             TEST_ALGO_NAME, map, map_size, pacman_pos, 2
         )
-        print(score)
         real_score = 39
         if score != real_score:
             print("Test failed")
@@ -87,7 +86,7 @@ def test_dfs_lv2():
         print(e)
         print("Test failed")
 
-    # Check dfs run correctly in test case 2 (level 2)
+    # Check search algo run correctly in test case 2 (level 2)
 
     try:
         map, map_size, pacman_pos = read_map(".map2.txt")
@@ -110,7 +109,7 @@ def test_dfs_lv2():
         print(e)
         print("Test failed")
 
-    # Check dfs run correctly in test case 3 (level 2)
+    # Check search algo run correctly in test case 3 (level 2)
 
     try:
         map, map_size, pacman_pos = read_map(".map3.txt")
