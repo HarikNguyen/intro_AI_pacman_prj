@@ -103,8 +103,8 @@ def play_game(
         ghost_routing_list = None
         ghost_path = []
         if (
-            len(get_ghost_path(ghost_paths, ghost_id["key"])) == 0
-            or get_ghost_path(ghost_paths, ghost_id["key"]) == STOP
+            get_ghost_path(ghost_paths, ghost_id["key"]) == STOP
+            or len(get_ghost_path(ghost_paths, ghost_id["key"])) == 0
         ):
             ghost_routing_list = [STOP] * len(pacman_routing)
             ghost_path = [ghost_id["key"]] * len(pacman_routing)
@@ -125,6 +125,12 @@ def play_game(
     # each time frame update step by step
     frame_no = 0  # frame id counted when play
     while True:
+
+        # check if pacman not found path to win
+        if len(pacman_path) == 0:
+            update_score(score_table_id, curr_score, is_fail=True)
+            break
+
         # pacman move
         pacman_direction = pacman_routing[frame_no]
         pacman_mat_pos = pacman_path[frame_no]

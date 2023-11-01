@@ -37,5 +37,5 @@ def dfs(map, map_size, start):
           frontier.append(neighbor) 
           parent_node[neighbor] = node
   
-  return pacman_path, len(pacman_path), [], score
+  return pacman_path, len(pacman_path), ghost_paths, score
 
