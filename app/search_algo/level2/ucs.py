@@ -8,7 +8,8 @@
         - Uses a queue to store the nodes
 """
 
-from app.constants import WALL, FOOD, X, Y, MONSTER
+from app.constants import WALL, FOOD, X, Y, MONSTER, EAT_FOOD_SCORE, MOVE_SCORE
+from app.utils.algo_shared_func import init_ghost_paths
 
 
 
@@ -30,7 +31,7 @@ def ucs(map, map_size, pacman_pos):
     explored = set()
     parent = dict()
     path = []
-    ghost_paths = []
+    ghost_paths = init_ghost_paths(map)
     score = 0
 
     # Define ghost_paths dict
@@ -46,14 +47,16 @@ def ucs(map, map_size, pacman_pos):
 
         # Check if the node is the goal
         if map[node[1][X]][node[1][Y]] == FOOD:
+            # Update score upto EAT_FOOD_SCORE for each food
+            score += EAT_FOOD_SCORE
             # Backtrack to get the path
             while node[1] != pacman_pos:
                 path.append(node[1])
                 node = parent[node]
+                # update score upto MOVE_SCORE for each step
+                score += MOVE_SCORE
             path.append(pacman_pos)
             path.reverse()
-            # Set score = 1
-            score += 1
             return path, len(path), ghost_paths, score
         
 

@@ -15,12 +15,12 @@ def gen_test_case():
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1 \n")
             f.write("1 0 0 0 0 0 1 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
-            f.write("1 1 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 0\n")
-            f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 2\n")
-            f.write("1 1 0 1 1 0 3 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 1\n")
+            f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 1 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
             f.write("1 1 0 0 0 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
-            f.write("1 0 0 3 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1\n")
+            f.write("1 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 1\n")
             f.close()
@@ -47,7 +47,7 @@ def test_graphic():
     try:
         # Example search algo
         path, path_len, ghost_paths, score = search_algo(
-            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 2
+            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 1
         )
     except Exception as e:
         print("Test failed")

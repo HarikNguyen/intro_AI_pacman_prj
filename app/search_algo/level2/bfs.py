@@ -10,7 +10,8 @@
 
 from collections import deque
 
-from app.constants import WALL, FOOD, X, Y, MONSTER
+from app.constants import WALL, FOOD, X, Y, MONSTER, EAT_FOOD_SCORE, MOVE_SCORE
+from app.utils.algo_shared_func import get_neighbors, init_ghost_paths
 
 
 def bfs(map, map_size, pacman_pos):
@@ -32,14 +33,8 @@ def bfs(map, map_size, pacman_pos):
     visited.add(pacman_pos)
     parent = {}
     path = []
-    ghost_paths = []
+    ghost_paths = init_ghost_paths
     score = 0
-
-    # Define ghost_paths dict
-    for row_id, row in enumerate(map):
-        for col_id, cell in enumerate(row):
-            if cell == MONSTER:
-                ghost_paths.append({"mat_pos": (row_id, col_id), "path": []})
 
     # Loop until queue is empty
     while queue:
@@ -48,14 +43,19 @@ def bfs(map, map_size, pacman_pos):
 
         # Check if the node is the goal
         if map[node[X]][node[Y]] == FOOD:
+            # Update score upto EAT_FOOD_SCORE for each food
+            score += EAT_FOOD_SCORE
             # Backtrack to get the path
             while node != pacman_pos:
                 path.append(node)
                 node = parent[node]
+                # update score upto MOVE_SCORE for each step
+                score += MOVE_SCORE
             path.append(pacman_pos)
             path.reverse()
-            # Set score = 1
-            score += 1
+            # Update score (add 1) for each step (except pacman's starting position)
+            if node != pacman_pos:
+                score += 1
             return path, len(path), ghost_paths, score
 
         # Get the neighbors of the node
@@ -69,40 +69,6 @@ def bfs(map, map_size, pacman_pos):
                 queue.append(neighbor)
                 visited.add(neighbor)
                 parent[neighbor] = node
-    # if all nodes in frontier (queue) are visited and the goal is not found (score = 0)
+
+
     return path, len(path), ghost_paths, score
-
-
-def get_neighbors(map, map_size, node):
-    """Get the neighbors of the node
-    neighbors are the nodes that are adjacent to the node, excluding the blocked nodes (walls/monsters)
-
-    Args:
-        map: 2D array of integers
-        node: tuple of integers (node's position)
-    """
-
-    # Initialize variables
-    neighbors = []
-    x = node[X]
-    y = node[Y]
-
-    # Define the directions (top - bottom - left - right)
-    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-
-    # Loop through the directions
-    for direction in directions:
-        # Get the neighbor's position
-        neighbor_x = x + direction[X]
-        neighbor_y = y + direction[Y]
-
-        # Check if the neighbor is within the map
-        if 0 <= neighbor_x < map_size[X] and 0 <= neighbor_y < map_size[Y]:
-            # Check if the neighbor is not a wall
-            if (
-                map[neighbor_x][neighbor_y] != WALL
-                and map[neighbor_x][neighbor_y] != MONSTER
-            ):
-                neighbors.append((neighbor_x, neighbor_y))
-
-    return neighbors
