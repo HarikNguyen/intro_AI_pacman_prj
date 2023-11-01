@@ -8,14 +8,12 @@ def dfs(map, map_size, start):
   parent_node = {}
   ghost_paths = init_ghost_paths(map)
   score = 0
-  end_node = None
 
   # Add start node
   frontier.append(start)
 
   while frontier:
     node = frontier.pop()
-    end_node = node
     explored.append(node)
 
     if is_food(map, node):
@@ -24,6 +22,7 @@ def dfs(map, map_size, start):
       while node != start:
         pacman_path.append(node)
         node = parent_node[node]
+        # update score upto 1 for each step
         score += 1
       pacman_path.append(start)
       pacman_path.reverse()
@@ -36,6 +35,6 @@ def dfs(map, map_size, start):
         if neighbor not in explored:
           frontier.append(neighbor) 
           parent_node[neighbor] = node
-  
-  return pacman_path, len(pacman_path), [], score
+
+  return pacman_path, len(pacman_path), ghost_paths, score
 

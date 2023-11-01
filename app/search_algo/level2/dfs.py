@@ -1,9 +1,10 @@
-from ..shared_func.check_position import *
+from app.utils.algo_shared_func import get_neighbors, is_food, init_ghost_paths
 
 def dfs(map, map_size, start): 
   frontier = []
   explored = []
   pacman_path = []
+  ghost_paths = init_ghost_paths(map)
   # Store how we reached neighbor
   parent_node = {}
   score = 0
@@ -14,13 +15,14 @@ def dfs(map, map_size, start):
   while frontier:
     node = frontier.pop()
     explored.append(node)
-    score += 1
     if is_food(map, node):
       score += 20
       # Get pacman's path
       while node != start:
         pacman_path.append(node)
         node = parent_node[node]
+        # update score upto 1 for each step
+        score += 1
       pacman_path.append(start)
       pacman_path.reverse()
       break

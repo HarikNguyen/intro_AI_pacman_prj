@@ -8,6 +8,7 @@ from test_read_input import test_read_input
 from test_bfs_lv1 import test_bfs_lv1
 from test_bfs_lv2 import test_bfs_lv2
 from test_dfs_lv1 import test_dfs_lv1
+from test_dfs_lv2 import test_dfs_lv2
 from test_graphic import test_graphic
 from test_graphic_w_ghost import test_graphic_w_ghost
 from test_graphic_v2 import test_graphic_v2
@@ -15,8 +16,9 @@ from test_graphic_v2 import test_graphic_v2
 if __name__ == "__main__":
     # test_read_input()
     # test_bfs_lv1()
-    # test_bfs_lv2()
-    test_dfs_lv1()
+    test_bfs_lv2()
+    # test_dfs_lv1()
+    # test_dfs_lv2()
     # test_graphic()
     # test_graphic_v2()
     # test_graphic_w_ghost()
