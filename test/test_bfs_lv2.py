@@ -66,10 +66,13 @@ def test_bfs_lv2():
         path, path_len, ghost_paths, score = search_algo(
             "bfs", map, map_size, pacman_pos, 2
         )
-        if score == 1:
-            print("Test passed")
-        else:
+        print(score)
+        real_score = 27
+        if score != real_score:
             print("Test failed")
+            print(score)
+        else:
+            print("Test passed")
     except Exception as e:
         print(e)
         print("Test failed")
@@ -83,10 +86,12 @@ def test_bfs_lv2():
 
     try:
         path, path_len, ghost_paths, score = search_algo("bfs", map, map_size, pacman_pos, 2)
-        if score == 0:
-            print("Test passed")
-        else:
+        real_score = 5
+        if score != real_score:
             print("Test failed")
+            print(score)
+        else:
+            print("Test passed")
 
     except Exception as e:
         print(e)
@@ -101,10 +106,12 @@ def test_bfs_lv2():
 
     try:
         path, path_len, ghost_paths, score = search_algo("bfs", map, map_size, pacman_pos, 2)
-        if score == 0:
-            print("Test passed")
-        else:
+        real_score = 5
+        if score != real_score:
             print("Test failed")
+        else:
+            print("Test passed")
+            print(score)
 
     except Exception as e:
         print(e)

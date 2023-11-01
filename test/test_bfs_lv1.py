@@ -9,13 +9,16 @@ def gen_test_case():
     # Create test case 1 (.map1.txt - have solution)
     if not (MAP_DIR / ".map1.txt").exists():
         with open(MAP_DIR / ".map1.txt", "w") as f:
-            f.write("5 5\n")
-            f.write("1 1 1 1 1\n")
-            f.write("1 0 0 0 1\n")
-            f.write("2 0 1 0 1\n")
-            f.write("1 0 1 0 0\n")
-            f.write("1 1 1 1 1\n")
-            f.write("3 4\n")
+            f.write("8 8\n")
+            f.write("1 1 1 1 1 1 1 1\n")
+            f.write("1 0 0 0 0 1 0 1\n")
+            f.write("1 1 1 0 0 0 0 1\n")
+            f.write("1 0 0 0 1 0 0 1\n")
+            f.write("2 0 1 0 0 0 0 1\n")
+            f.write("1 0 1 0 0 0 0 1\n")
+            f.write("1 0 0 0 1 1 0 0\n")
+            f.write("1 1 1 1 1 1 1 1\n")
+            f.write("6 7\n")
             f.close()
 
     # Create test case 2 (.map2.txt - no solution)
@@ -50,10 +53,13 @@ def test_bfs_lv1():
 
     try:
         path, path_len, ghost_paths, score = search_algo("bfs", map, map_size, pacman_pos, 1)
-        if score == 1:
-            print(path)
-        else:
+        real_score = 30
+        if score != real_score:
             print("Test failed")
+            print(score)
+        else:
+            print("Test passed")
+            print(path)
     except Exception as e:
         print(e)
         print("Test failed")
@@ -68,10 +74,12 @@ def test_bfs_lv1():
         path, path_len, ghost_paths, score = search_algo(
             "bfs", map, map_size, pacman_pos, 1
         )
-        if score == 1:
-            print(path)
-        else:
+        real_score = 7
+        if score != real_score:
             print("Test failed")
+            print(score)
+        else:
+            print("Test passed")
 
     except Exception as e:
         print(e)

@@ -89,6 +89,7 @@ def play_game(
         time_frame (float, optional): Time per frame. Defaults to 0.0.
     """
     # define variable
+    is_start = False
     is_win = False
     is_fail = False
     is_eat = False
@@ -126,22 +127,23 @@ def play_game(
     while True:
         # pacman move
         pacman_direction = pacman_routing[frame_no]
-        pacman_mat_pos = (
-            pacman_path[frame_no][Y],
-            pacman_path[frame_no][X],
-        )  # matrix (x, y) --> screen (y,x)
+        pacman_mat_pos = pacman_path[frame_no]
         move_pacman(
             pacman_id, map_size, pacman_mat_pos, pacman_direction, grid_size, zoom
         )
 
+        # if pacman move to another cell and not start set is_start = True
+        if pacman_mat_pos != pacman_path[0] and not is_start:
+            is_start = True
+
         # pacman eat food
-        if pacman_path[frame_no] in list(food["key"] for food in food_ids):
-            food_ids = remove_food(food_ids, pacman_path[frame_no])
-            curr_score = update_current_score(curr_score, True)
+        if pacman_mat_pos in list(food["key"] for food in food_ids):
+            food_ids = remove_food(food_ids, pacman_mat_pos)
+            curr_score = update_current_score(curr_score, is_start, True)
             is_eat = True
         else:
             # update state when pacman move
-            curr_score = update_current_score(curr_score)
+            curr_score = update_current_score(curr_score, is_start)
             is_eat = False
 
 
@@ -155,8 +157,8 @@ def play_game(
             )
             # check if pacman and ghost meet
             if (
-                pacman_path[frame_no][X] == ghost_mat_pos[X]
-                and pacman_path[frame_no][Y] == ghost_mat_pos[Y]
+                pacman_mat_pos[X] == ghost_mat_pos[X]
+                and pacman_mat_pos[Y] == ghost_mat_pos[Y]
             ):
                 is_fail = True
             
@@ -212,7 +214,9 @@ def get_ghost_path(ghost_paths, ghost_mat_pos):
     return STOP
 
 
-def update_current_score(curr_score, is_eat_food=False):
+def update_current_score(curr_score, is_start=False, is_eat_food=False):
+    if not is_start:
+        return curr_score
     if is_eat_food:
         curr_score += EAT_FOOD_SCORE
     else:

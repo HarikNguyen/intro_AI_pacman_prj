@@ -7,7 +7,8 @@ from app.constants import *
 
 
 def draw_pacman(map, map_size, pacman_start_pos, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
-    screen_pos = matrix_to_screen(pacman_start_pos, map_size, grid_size, zoom)
+    row_id, col_id = pacman_start_pos
+    screen_pos = matrix_to_screen((col_id, row_id), map_size, grid_size, zoom)
     endpoints = get_endpoints()
 
     width = PACMAN_OUTLINE_WIDTH
@@ -42,7 +43,8 @@ def get_endpoints(direction=STOP, degree=120):
 def move_pacman(
     pacman_id, map_size, pacman_pos, direction, grid_size=DEFAULT_GRID_SIZE, zoom=1.0
 ):
-    cur_pacman_pos = pacman_pos
+    row_id, col_id = pacman_pos
+    cur_pacman_pos = (col_id, row_id) # matrix (x,y) --> screen (y, x)
     max_degree = 110
 
     screen_pos = matrix_to_screen(cur_pacman_pos, map_size, grid_size, zoom)
