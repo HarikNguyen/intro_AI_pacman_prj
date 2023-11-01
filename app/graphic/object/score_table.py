@@ -5,7 +5,7 @@ from app.utils.graphic import *
 def draw_score_table_text(map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
 
     # add text with content score: 0
-    text_mat_pos = (2, map_size[X])
+    text_mat_pos = (1, map_size[X])
     text_screen_pos = matrix_to_screen(text_mat_pos, map_size, grid_size, zoom)
 
     score_table_id = text(text_screen_pos, SCORE_COLOR, "SCORE: 0")

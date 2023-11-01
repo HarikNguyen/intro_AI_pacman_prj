@@ -4,7 +4,7 @@ from app.graphic import draw_pane, play_game
 from app.search_algo import search_algo
 
 MAP_DIR = BASE_DIR / "app" / "maps"
-SEARCH_ALGO_EXP = "bfs"
+SEARCH_ALGO_EXP = "ucs"
 
 
 def gen_test_case():
@@ -13,14 +13,14 @@ def gen_test_case():
         with open(MAP_DIR / ".map1.txt", "w") as f:
             f.write("10 20\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
-            f.write("1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1 \n")
-            f.write("1 0 0 0 0 0 1 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
-            f.write("1 1 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 1\n")
-            f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
-            f.write("1 1 0 1 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 0 1 0 0 0 1 0 0 0 1 1 1 0 1 0 1 0 1 1 \n")
+            f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
+            f.write("1 1 0 1 1 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1\n")
+            f.write("1 0 0 0 1 0 0 0 3 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 1 1 0 0 0 1 0 1 3 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
-            f.write("1 1 0 0 0 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
-            f.write("1 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1\n")
+            f.write("1 1 0 0 0 0 1 0 1 0 1 3 0 0 1 0 1 0 1 1\n")
+            f.write("1 0 0 1 1 0 1 0 0 0 1 0 0 0 0 0 0 2 1 1\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 1\n")
             f.close()
@@ -47,7 +47,7 @@ def test_graphic():
     try:
         # Example search algo
         path, path_len, ghost_paths, score = search_algo(
-            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 1
+            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 2
         )
     except Exception as e:
         print("Test failed")
@@ -59,7 +59,6 @@ def test_graphic():
     except Exception as e:
         print("Test failed")
         print(e)
-
     try:
         play_game(
             map_size,

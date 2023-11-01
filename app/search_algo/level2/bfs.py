@@ -33,7 +33,7 @@ def bfs(map, map_size, pacman_pos):
     visited.add(pacman_pos)
     parent = {}
     path = []
-    ghost_paths = init_ghost_paths
+    ghost_paths = init_ghost_paths(map)
     score = 0
 
     # Loop until queue is empty
