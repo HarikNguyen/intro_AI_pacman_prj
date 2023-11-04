@@ -226,5 +226,5 @@ def update_current_score(curr_score, is_start=False, is_eat_food=False):
     if is_eat_food:
         curr_score += EAT_FOOD_SCORE
     else:
-        curr_score += MOVE_SCORE
+        curr_score -= MOVE_SCORE
     return curr_score

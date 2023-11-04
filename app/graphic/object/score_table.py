@@ -25,6 +25,7 @@ def update_score(score_table_id, score, is_fail=False, is_win=False, is_eat=Fals
         # update score text
         change_text(score_table_id, "SCORE: " + str(score))
     else:
-        pass
+        # update score text
+        change_text(score_table_id, "SCORE: " + str(score))
     
     

@@ -26,5 +26,5 @@ if __name__ == "__main__":
     # test_dfs_lv2()
     # test_ucs_lv2()
     #test_a_star_lv2()
-    # test_graphic()
+    test_graphic()
     # test_graphic_v2()
