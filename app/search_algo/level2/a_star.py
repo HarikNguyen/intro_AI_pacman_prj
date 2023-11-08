@@ -1,5 +1,12 @@
 import heapq
-from app.constants import ROAD, WALL, FOOD, MONSTER
+from app.constants import (
+    ROAD,
+    WALL,
+    FOOD,
+    MONSTER,
+    MOVE_SCORE,
+    EAT_FOOD_SCORE,
+)
 from app.utils.algo_shared_func import init_ghost_paths
 
 
@@ -20,7 +27,10 @@ def a_star(map, map_size, pacman_pos):
     food_positions = [
         (r, c) for r in range(rows) for c in range(cols) if map[r][c] == FOOD
     ]
+
+    path = []
     ghost_paths = init_ghost_paths(map)
+    score = 0
 
     while min_heap:
         dist, current = heapq.heappop(
@@ -37,11 +47,9 @@ def a_star(map, map_size, pacman_pos):
             path = list(reversed(path))
 
             # Calculate the score based on path length and other criteria
-            score = len(path) - 1  # Subtract 1 for the initial position
-
-            # Update ghost paths
-            for ghost_path in ghost_paths:
-                ghost_path["path"].append(ghost_path["mat_pos"])
+            score = (
+                len(path) - 1
+            ) * MOVE_SCORE + EAT_FOOD_SCORE  # Subtract 1 for the initial position
 
             return path, len(path), ghost_paths, score
 
@@ -55,7 +63,9 @@ def a_star(map, map_size, pacman_pos):
             new_r, new_c = current[0] + dr, current[1] + dc
 
             if (
-                0 <= new_r < rows and 0 <= new_c < cols and map[new_r][new_c] == ROAD
+                0 <= new_r < rows
+                and 0 <= new_c < cols
+                and (map[new_r][new_c] == ROAD or map[new_r][new_c] == FOOD)
             ):  # Check if the neighbor is a valid path
                 new_dist = dist + 1
 
@@ -69,4 +79,4 @@ def a_star(map, map_size, pacman_pos):
                     )  # Add the neighbor to the priority queue
 
     # If no path to the food is found, return an empty path, empty ghost paths, and a score of 0
-    return [], 0, [], 0
+    return path, len(path), ghost_paths, score

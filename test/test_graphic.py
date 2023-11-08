@@ -44,11 +44,10 @@ def test_graphic():
         print("Test failed 1")
         print(e)
 
-
     path, path_len, ghost_paths, score = search_algo(
-            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
-        )
-    
+        SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
+    )
+
     print(str(score))
     print(str(path_len - 1))
     f = open("log.txt", "w")
@@ -58,7 +57,6 @@ def test_graphic():
     f.write(str(ghost_paths) + "\n\n")
     f.close()
 
-
     # try:
     #     # Example search algo
     #     path, path_len, ghost_paths, score = search_algo(
@@ -67,7 +65,6 @@ def test_graphic():
     # except Exception as e:
     #     print("Test failed 2")
     #     print(e)
-
 
     # try:
     #     # Draw the initial state of the game
