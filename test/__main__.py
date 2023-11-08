@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # test_bfs_lv1()
     # test_dfs_lv1()
     # test_ucs_lv1()
-    test_a_star_lv1()
+    # test_a_star_lv1()
     # test_bfs_lv2()
     # test_dfs_lv2()
     # test_ucs_lv2()

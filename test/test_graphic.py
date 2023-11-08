@@ -13,13 +13,13 @@ def gen_test_case():
         with open(MAP_DIR / ".map1.txt", "w") as f:
             f.write("10 20\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
-            f.write("1 0 1 0 0 0 1 0 0 0 1 1 1 0 1 0 1 0 1 1 \n")
+            f.write("1 0 1 0 0 0 1 0 3 0 1 1 1 0 1 0 1 0 1 1 \n")
             f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
             f.write("1 1 0 1 1 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1\n")
             f.write("1 0 0 0 1 0 0 0 3 0 1 1 1 0 1 0 1 0 1 1\n")
-            f.write("1 1 0 1 1 0 0 0 1 0 1 3 1 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 1 1 0 0 0 1 0 1 0 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
-            f.write("1 1 0 0 0 0 1 0 1 0 1 3 0 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 0 0 0 1 0 1 0 1 0 0 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 0 0 1 0 0 0 0 0 0 2 1 1\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 1\n")
@@ -41,26 +41,42 @@ def test_graphic():
     try:
         map, map_size, pacman_pos = read_map(".map1.txt")
     except Exception as e:
-        print("Test failed")
+        print("Test failed 1")
         print(e)
 
-    try:
-        # Example search algo
-        path, path_len, ghost_paths, score = search_algo(
-            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 2
+
+    path, path_len, ghost_paths, score = search_algo(
+            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
         )
-    except Exception as e:
-        print("Test failed")
-        print(e)
+    
+    print(str(score))
+    print(str(path_len - 1))
+    f = open("log.txt", "w")
+    f.write(str(score) + "\n")
+    f.write(str(path_len) + "\n\n")
+    f.write(str(path) + "\n\n")
+    f.write(str(ghost_paths) + "\n\n")
+    f.close()
 
-    try:
-        # Draw the initial state of the game
-        pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos)
-    except Exception as e:
-        print("Test failed")
-        print(e)
-    try:
-        play_game(
+    # try:
+    #     # Example search algo
+    #     path, path_len, ghost_paths, score = search_algo(
+    #         SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
+    #     )
+    # except Exception as e:
+    #     print("Test failed 2")
+    #     print(e)
+
+    pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos)
+
+    # try:
+    #     # Draw the initial state of the game
+    #     pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos)
+    # except Exception as e:
+    #     print("Test failed 3")
+    #     print(e)
+
+    play_game(
             map_size,
             pac_man_id,
             ghost_ids,
@@ -71,9 +87,22 @@ def test_graphic():
             score,
             time_frame=0.3,
         )
-    except Exception as e:
-        print(e)
-        pass
+
+    # try:
+    #     play_game(
+    #         map_size,
+    #         pac_man_id,
+    #         ghost_ids,
+    #         food_ids,
+    #         score_table_id,
+    #         path,
+    #         ghost_paths,
+    #         score,
+    #         time_frame=0.3,
+    #     )
+    # except Exception as e:
+    #     print(e)
+    #     pass
 
     # Undo test cases
     undo_test_case()

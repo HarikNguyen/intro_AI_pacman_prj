@@ -9,12 +9,15 @@ from app.constants import X, Y, ROAD, WALL, FOOD, MONSTER, INVISIBILITY
 def ucs(map, map_size, pacman_pos):
     pacman_res = []
     ghosts_res = []
-    scores = []
     score = 0
 
     food_map = init_food_map(map, map_size)
     count_food = len(find_objects(food_map, map_size, FOOD))
-    ghosts = find_objects(map, map_size, MONSTER)
+    ghosts_pos = find_objects(map, map_size, MONSTER)
+    ghosts_len = len(ghosts_pos)
+
+    for i in range(ghosts_len):
+        ghosts_res.append({'mat_pos': ghosts_pos[i], 'path': [ghosts_pos[i]]})
 
     pacman_map = init_pacman_map(map_size)
     pacman_food_map = init_pacman_food_map(map_size)
@@ -22,31 +25,32 @@ def ucs(map, map_size, pacman_pos):
     pacman_food_map = update_pacman_food_map(food_map, pacman_food_map, map_size, pacman_pos)
 
     pacman_res.append(pacman_pos)
-    ghosts_res.append(ghosts)
+    
 
     while True:
         if count_food == 0:
-            return pacman_res, len(pacman_res), ghosts_res, 1
+            return pacman_res, len(pacman_res), ghosts_res, score
 
-        if pacman_pos in ghosts:
-            return pacman_res, len(pacman_res), ghosts_res, -1
+        if pacman_pos in ghosts_pos:
+            return pacman_res, len(pacman_res), ghosts_res, score
 
         pacman_path = search_path(pacman_map, pacman_food_map, map_size, pacman_pos)
         
         if len(pacman_path) == 0:
-            return pacman_res, len(pacman_res), ghosts_res, -2
-        
-        if check_safe_move(pacman_map, map_size, pacman_path[1]):
+            pacman_pos = change_path(pacman_map, map_size, pacman_pos)
+        elif check_safe_move(pacman_map, map_size, pacman_path[1]):
             pacman_pos = pacman_path[1]
         else:
             pacman_pos = change_path(pacman_map, map_size, pacman_pos)
         
-        ghosts = get_ghosts_move(map, map_size, ghosts)
+        ghosts_pos = get_ghosts_move(map, map_size, ghosts_pos)
         pacman_res.append(pacman_pos)
-        ghosts_res.append(ghosts)
+        for i in range(ghosts_len):
+            ghosts_res[i]["path"].append(ghosts_pos[i])
+
         score -= 1
 
-        map = update_map(map, map_size, ghosts)
+        map = update_map(map, map_size, ghosts_pos)
         pacman_map = update_pacman_map(map, pacman_map, map_size, pacman_pos)
         pacman_food_map = update_pacman_food_map(food_map, pacman_food_map, map_size, pacman_pos)
 
@@ -55,8 +59,6 @@ def ucs(map, map_size, pacman_pos):
             pacman_food_map[pacman_pos[X]][pacman_pos[Y]] = 0
             count_food -= 1
             score += 20
-        
-        scores.append(score)
 
 
 def change_path(pacman_map, map_size, pacman_pos):
@@ -148,7 +150,7 @@ def get_neighbors(map, map_size, node):
         neighbor_y = node[Y] + direction[Y]
         
         if 0 <= neighbor_x < map_size[X] and 0 <= neighbor_y <map_size[Y]:
-            if map[neighbor_x][neighbor_y] != WALL:# and map[neighbor_x][neighbor_y] != MONSTER:# and map[neighbor_x][neighbor_y] != INVISIBILITY:
+            if map[neighbor_x][neighbor_y] != WALL and map[neighbor_x][neighbor_y] != MONSTER:# and map[neighbor_x][neighbor_y] != INVISIBILITY:
                 neighbors.append((neighbor_x, neighbor_y))
     
     return neighbors
