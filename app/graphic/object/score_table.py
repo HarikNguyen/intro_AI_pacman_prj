@@ -2,6 +2,7 @@ from app.constants.graphic import *
 from app.constants import *
 from app.utils.graphic import *
 
+
 def draw_score_table_text(map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
 
     # add text with content score: 0
@@ -11,6 +12,7 @@ def draw_score_table_text(map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
     score_table_id = text(text_screen_pos, SCORE_COLOR, "SCORE: 0")
 
     return score_table_id
+
 
 def update_score(score_table_id, score, is_fail=False, is_win=False, is_eat=False):
     # update score color
@@ -27,5 +29,3 @@ def update_score(score_table_id, score, is_fail=False, is_win=False, is_eat=Fals
     else:
         # update score text
         change_text(score_table_id, "SCORE: " + str(score))
-    
-    
