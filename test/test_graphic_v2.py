@@ -55,7 +55,9 @@ def test_graphic_v2():
 
     try:
         # Draw the initial state of the game
-        pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos)
+        pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(
+            map, map_size, pacman_pos
+        )
     except Exception as e:
         print("Test failed")
         print(e)

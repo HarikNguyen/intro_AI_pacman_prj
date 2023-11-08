@@ -58,6 +58,7 @@ def test_graphic():
     f.write(str(ghost_paths) + "\n\n")
     f.close()
 
+
     # try:
     #     # Example search algo
     #     path, path_len, ghost_paths, score = search_algo(
@@ -67,7 +68,6 @@ def test_graphic():
     #     print("Test failed 2")
     #     print(e)
 
-    pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos)
 
     # try:
     #     # Draw the initial state of the game
@@ -76,7 +76,16 @@ def test_graphic():
     #     print("Test failed 3")
     #     print(e)
 
-    play_game(
+    try:
+        # Draw the initial state of the game
+        pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(
+            map, map_size, pacman_pos
+        )
+    except Exception as e:
+        print("Test failed")
+        print(e)
+    try:
+        play_game(
             map_size,
             pac_man_id,
             ghost_ids,

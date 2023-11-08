@@ -1,7 +1,8 @@
 from app.constants import MONSTER
 
+
 def init_ghost_paths(map):
-    # Define ghost_paths list of dict 
+    # Define ghost_paths list of dict
     ghost_paths = []
     for row_id, row in enumerate(map):
         for col_id, cell in enumerate(row):

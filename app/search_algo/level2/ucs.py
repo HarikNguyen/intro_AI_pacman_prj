@@ -12,7 +12,6 @@ from app.constants import WALL, FOOD, X, Y, MONSTER, EAT_FOOD_SCORE, MOVE_SCORE
 from app.utils.algo_shared_func import init_ghost_paths
 
 
-
 def ucs(map, map_size, pacman_pos):
     """
     Description: Breadth First Search Algorithm for Level 1
@@ -37,7 +36,7 @@ def ucs(map, map_size, pacman_pos):
     # Define ghost_paths dict
     for row_id, row in enumerate(map):
         for col_id, cell in enumerate(row):
-            if cell ==  MONSTER:
+            if cell == MONSTER:
                 ghost_paths.append({"mat_pos": (row_id, col_id), "path": []})
 
     # Loop until queue is empty
@@ -58,7 +57,6 @@ def ucs(map, map_size, pacman_pos):
             path.append(pacman_pos)
             path.reverse()
             return path, len(path), ghost_paths, score
-        
 
         explored.add(node[1])
         # Get the neighbors of the node
@@ -67,7 +65,10 @@ def ucs(map, map_size, pacman_pos):
         # Loop through the neighbors
         for neighbor in neighbors:
             # Check if the neighbor has been explored and neighbor is monster
-            if neighbor[1] not in explored and map[neighbor[1][0]][neighbor[1][1]] != MONSTER:
+            if (
+                neighbor[1] not in explored
+                and map[neighbor[1][0]][neighbor[1][1]] != MONSTER
+            ):
                 index = searchPosInFrontier(neighbor[1], frontier)
                 if index == -1:
                     insertIntoFrontier(neighbor, frontier)
@@ -76,8 +77,7 @@ def ucs(map, map_size, pacman_pos):
                     frontier.pop(index)
                     insertIntoFrontier(neighbor, frontier)
                     parent[neighbor] = node
-                
-                
+
     # if all nodes in frontier (queue) are visited and the goal is not found (score = 0)
     return path, len(path), ghost_paths, score
 
@@ -114,14 +114,16 @@ def get_neighbors(map, map_size, node):
 
     return neighbors
 
-#Return index of position in frontier
+
+# Return index of position in frontier
 def searchPosInFrontier(pos, frontier):
     for i in range(len(frontier)):
         if frontier[i][1] == pos:
             return i
     return -1
 
-#Insert item into frontier base on item cost
+
+# Insert item into frontier base on item cost
 def insertIntoFrontier(node, frontier):
     for i in range(len(frontier)):
         if node[0] < frontier[i][0]:

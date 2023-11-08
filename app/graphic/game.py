@@ -152,7 +152,6 @@ def play_game(
             curr_score = update_current_score(curr_score, is_start)
             is_eat = False
 
-
         # ghost move
         for ghost_ in ghost_routing:
             ghost_mat_pos = ghost_["ghost_path"][frame_no]
@@ -167,7 +166,6 @@ def play_game(
                 and pacman_mat_pos[Y] == ghost_mat_pos[Y]
             ):
                 is_fail = True
-            
 
         # update frame id
         frame_no += 1
@@ -208,7 +206,7 @@ def convert_path_to_direction_routing(path):
         elif next_pos[X] - cur_pos[X] > 0:
             direction_routing.append(DOWN)
         else:
-            pass
+            direction_routing.append(STOP)
 
     return direction_routing
 

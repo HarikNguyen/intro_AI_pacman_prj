@@ -12,6 +12,7 @@ from collections import deque
 from app.constants import WALL, FOOD, X, Y, MONSTER, EAT_FOOD_SCORE, MOVE_SCORE
 from app.utils.algo_shared_func import get_neighbors, init_ghost_paths
 
+
 def bfs(map, map_size, pacman_pos):
     """
     Description: Breadth First Search Algorithm for Level 1
@@ -65,5 +66,5 @@ def bfs(map, map_size, pacman_pos):
                 queue.append(neighbor)
                 visited.add(neighbor)
                 parent[neighbor] = node
-    
+
     return path, len(path), ghost_paths, score
