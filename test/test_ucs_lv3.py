@@ -16,10 +16,10 @@ def gen_test_case():
             f.write("1 0 1 0 0 0 1 0 3 0 1 1 1 0 1 0 1 0 1 1 \n")
             f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
             f.write("1 1 0 1 1 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1\n")
-            f.write("1 0 0 0 1 0 0 0 3 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 0 0 0 1 0 2 0 3 0 1 1 1 0 1 0 1 0 1 1\n")
             f.write("1 1 0 1 1 0 0 0 1 0 1 0 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
-            f.write("1 1 0 0 0 0 1 0 1 0 1 0 0 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 0 0 0 1 0 1 0 1 2 0 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 0 0 1 0 0 0 0 0 0 2 1 1\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 1\n")
@@ -31,8 +31,7 @@ def undo_test_case():
     (MAP_DIR / ".map1.txt").unlink()
 
 
-def test_graphic():
-
+def test_ucs_lv3():
     # Generate test cases
     gen_test_case()
 
@@ -44,38 +43,6 @@ def test_graphic():
         print("Test failed 1")
         print(e)
 
-
-    path, path_len, ghost_paths, score = search_algo(
-            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
-        )
-    
-    print(str(score))
-    print(str(path_len - 1))
-    f = open("log.txt", "w")
-    f.write(str(score) + "\n")
-    f.write(str(path_len) + "\n\n")
-    f.write(str(path) + "\n\n")
-    f.write(str(ghost_paths) + "\n\n")
-    f.close()
-
-
-    # try:
-    #     # Example search algo
-    #     path, path_len, ghost_paths, score = search_algo(
-    #         SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
-    #     )
-    # except Exception as e:
-    #     print("Test failed 2")
-    #     print(e)
-
-
-    # try:
-    #     # Draw the initial state of the game
-    #     pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(map, map_size, pacman_pos)
-    # except Exception as e:
-    #     print("Test failed 3")
-    #     print(e)
-
     try:
         # Draw the initial state of the game
         pac_man_id, ghost_ids, food_ids, score_table_id = draw_pane(
@@ -84,6 +51,23 @@ def test_graphic():
     except Exception as e:
         print("Test failed")
         print(e)
+
+    try:
+        path, path_len, ghost_paths, score = search_algo(
+            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
+        )
+
+        print("Pacman finding length: ", len(path))
+
+        print("Ghosts finding length: ")
+        for i in ghost_paths:
+            print(len(i["path"]))
+
+        print("play")
+    except Exception as e:
+        print("Test failed 2")
+        print(e)
+
     try:
         play_game(
             map_size,
