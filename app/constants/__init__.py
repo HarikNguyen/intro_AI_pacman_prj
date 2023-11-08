@@ -5,6 +5,7 @@ ROAD = 0
 WALL = 1
 FOOD = 2
 MONSTER = 3
+INVISIBILITY = 4
 
 # X(0) and Y(1) are the alias for indexes of position tuple
 X = 0
