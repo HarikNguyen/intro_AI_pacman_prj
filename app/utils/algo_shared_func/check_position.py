@@ -1,19 +1,33 @@
-from app.constants import WALL, FOOD, MONSTER, X, Y
+from app.constants import WALL, FOOD, MONSTER, X, Y, ROAD
+
 
 def is_food(map, pos):
-  return map[pos[X]][pos[Y]] == FOOD
+    return map[pos[X]][pos[Y]] == FOOD
+
 
 def is_wall(map, pos):
-  return map[pos[X]][pos[Y]] == WALL
+    return map[pos[X]][pos[Y]] == WALL
+
 
 def is_monster(map, pos):
-  return map[pos[X]][pos[Y]] == MONSTER
+    return map[pos[X]][pos[Y]] == MONSTER
+
+
+def is_road_for_ghost(map, pos):
+    return (
+        map[pos[X]][pos[Y]] == ROAD
+        or map[pos[X]][pos[Y]] == FOOD
+        or map[pos[X]][pos[Y]] == MONSTER
+    )
+
 
 def is_in_map(map_size, pos):
-  return 0 <= pos[X] < map_size[X] and 0 <= pos[Y] < map_size[Y]
+    return 0 <= pos[X] < map_size[X] and 0 <= pos[Y] < map_size[Y]
+
 
 def is_explored_node(explored, node):
-  return node in explored
+    return node in explored
+
 
 def get_neighbors(map, map_size, node):
     """Get the neighbors of the node
@@ -40,11 +54,10 @@ def get_neighbors(map, map_size, node):
 
         # Check if the neighbor is within the map, not a wall and not a monster
         if (
-           is_in_map(map_size, (neighbor_x, neighbor_y)) 
-           and not is_wall(map, (neighbor_x, neighbor_y)) 
-           and not is_monster(map, (neighbor_x, neighbor_y))
+            is_in_map(map_size, (neighbor_x, neighbor_y))
+            and not is_wall(map, (neighbor_x, neighbor_y))
+            and not is_monster(map, (neighbor_x, neighbor_y))
         ):
-          neighbors.append((neighbor_x, neighbor_y))
+            neighbors.append((neighbor_x, neighbor_y))
 
     return neighbors
-

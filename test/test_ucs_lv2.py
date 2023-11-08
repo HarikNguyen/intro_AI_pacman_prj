@@ -100,7 +100,7 @@ def test_ucs_lv2():
         real_score = 0
         if score != real_score:
             print("Test failed")
-            print(path,score)
+            print(path, score)
         else:
             print("Test passed")
             print(path)

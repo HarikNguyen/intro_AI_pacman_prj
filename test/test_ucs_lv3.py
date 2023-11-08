@@ -4,7 +4,7 @@ from app.graphic import draw_pane, play_game
 from app.search_algo import search_algo
 
 MAP_DIR = BASE_DIR / "app" / "maps"
-SEARCH_ALGO_EXP = "bfs"
+SEARCH_ALGO_EXP = "ucs"
 
 
 def gen_test_case():
@@ -13,14 +13,14 @@ def gen_test_case():
         with open(MAP_DIR / ".map1.txt", "w") as f:
             f.write("10 20\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
-            f.write("1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1 \n")
-            f.write("1 0 0 0 0 0 1 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
-            f.write("1 1 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 0\n")
-            f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 1 0\n")
-            f.write("1 1 0 1 1 0 3 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 0 1 0 0 0 1 0 3 0 1 1 1 0 1 0 1 0 1 1 \n")
+            f.write("1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 0 1 1\n")
+            f.write("1 1 0 1 1 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1\n")
+            f.write("1 0 0 0 1 0 2 0 3 0 1 1 1 0 1 0 1 0 1 1\n")
+            f.write("1 1 0 1 1 0 0 0 1 0 1 0 1 0 1 0 1 0 1 1\n")
             f.write("1 0 0 1 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 1\n")
-            f.write("1 1 0 0 0 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1\n")
-            f.write("1 0 0 3 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1\n")
+            f.write("1 1 0 0 0 0 1 0 1 0 1 2 0 0 1 0 1 0 1 1\n")
+            f.write("1 0 0 1 1 0 1 0 0 0 1 0 0 0 0 0 0 2 1 1\n")
             f.write("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n")
             f.write("1 1\n")
             f.close()
@@ -31,8 +31,7 @@ def undo_test_case():
     (MAP_DIR / ".map1.txt").unlink()
 
 
-def test_graphic_v2():
-
+def test_ucs_lv3():
     # Generate test cases
     gen_test_case()
 
@@ -41,16 +40,7 @@ def test_graphic_v2():
     try:
         map, map_size, pacman_pos = read_map(".map1.txt")
     except Exception as e:
-        print("Test failed")
-        print(e)
-
-    try:
-        # Example search algo
-        path, path_len, ghost_paths, score = search_algo(
-            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 2
-        )
-    except Exception as e:
-        print("Test failed")
+        print("Test failed 1")
         print(e)
 
     try:
@@ -60,6 +50,22 @@ def test_graphic_v2():
         )
     except Exception as e:
         print("Test failed")
+        print(e)
+
+    try:
+        path, path_len, ghost_paths, score = search_algo(
+            SEARCH_ALGO_EXP, map, map_size, pacman_pos, 3
+        )
+
+        print("Pacman finding length: ", len(path))
+
+        print("Ghosts finding length: ")
+        for i in ghost_paths:
+            print(len(i["path"]))
+
+        print("play")
+    except Exception as e:
+        print("Test failed 2")
         print(e)
 
     try:
