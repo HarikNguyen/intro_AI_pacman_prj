@@ -13,14 +13,18 @@ EAT_FOOD_SCORE = 20  # Score for eating food
 # A* search algorithm to find a path from 'pacman_pos' to 'food_pos' in the 'map' of size 'map_size'
 def a_star(map, map_size, pacman_pos):
     rows, cols = map_size
-    distance = [[float('inf') for _ in range(cols)] for _ in range(rows)]
+    distance = [[float("inf") for _ in range(cols)] for _ in range(rows)]
     parent = [[None for _ in range(cols)] for _ in range(rows)]
 
     distance[pacman_pos[0]][pacman_pos[1]] = 0
 
     min_heap = [(0, pacman_pos)]
-    food_positions = [(r, c) for r in range(rows) for c in range(cols) if map[r][c] == FOOD]
-    ghost_positions = [(r, c) for r in range(rows) for c in range(cols) if map[r][c] == MONSTER]
+    food_positions = [
+        (r, c) for r in range(rows) for c in range(cols) if map[r][c] == FOOD
+    ]
+    ghost_positions = [
+        (r, c) for r in range(rows) for c in range(cols) if map[r][c] == MONSTER
+    ]
 
     while min_heap:
         dist, current = heapq.heappop(min_heap)
