@@ -1,9 +1,5 @@
 from app.constants import WALL, FOOD, MONSTER, X, Y, ROAD
 
-
-def is_goal(node, goal):
-  return node[X] == goal[X] and node[Y] == goal[Y]
-
 def is_food(map, pos):
     return map[pos[X]][pos[Y]] == FOOD
 

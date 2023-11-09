@@ -4,7 +4,6 @@ from app.utils.graphic import *
 
 
 def draw_score_table_text(map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
-
     # add text with content score: 0
     text_mat_pos = (1, map_size[X])
     text_screen_pos = matrix_to_screen(text_mat_pos, map_size, grid_size, zoom)
@@ -18,7 +17,7 @@ def update_score(score_table_id, score, is_fail=False, is_win=False, is_eat=Fals
     # update score color
     if is_fail:
         change_color(score_table_id, FAIL_COLOR)
-        change_text(score_table_id, "FAIL")
+        change_text(score_table_id, "FAIL: " + str(score))
     elif is_win:
         if is_eat:
             change_color(score_table_id, WIN_COLOR)
