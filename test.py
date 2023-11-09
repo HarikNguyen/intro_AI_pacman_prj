@@ -1,18 +1,25 @@
 from collections import deque
+
+
 def is_food(map, pos):
-  return map[pos[0]][pos[1]] == 2
+    return map[pos[0]][pos[1]] == 2
+
 
 def is_wall(map, pos):
-  return map[pos[0]][pos[1]] == 1
+    return map[pos[0]][pos[1]] == 1
+
 
 def is_monster(map, pos):
-  return map[pos[0]][pos[1]] == 3
+    return map[pos[0]][pos[1]] == 3
+
 
 def is_in_map(map_size, pos):
-  return 0 <= pos[0] < map_size[0] and 0 <= pos[1] < map_size[1]
+    return 0 <= pos[0] < map_size[0] and 0 <= pos[1] < map_size[1]
+
 
 def is_explored_node(explored, node):
-  return node in explored
+    return node in explored
+
 
 def get_neighbors(map, map_size, node):
     """Get the neighbors of the node
@@ -39,50 +46,50 @@ def get_neighbors(map, map_size, node):
 
         # Check if the neighbor is within the map, not a wall and not a monster
         if (
-           is_in_map(map_size, (neighbor_x, neighbor_y)) 
-           and not is_wall(map, (neighbor_x, neighbor_y)) 
-           and not is_monster(map, (neighbor_x, neighbor_y))
+            is_in_map(map_size, (neighbor_x, neighbor_y))
+            and not is_wall(map, (neighbor_x, neighbor_y))
+            and not is_monster(map, (neighbor_x, neighbor_y))
         ):
-          neighbors.append((neighbor_x, neighbor_y))
+            neighbors.append((neighbor_x, neighbor_y))
 
     return neighbors
 
 
+def dfs(map, map_size, start):
+    frontier = []
+    explored = []
+    pacman_path = []
+    # Store how we reached neighbor
+    parent_node = {}
+    score = 0
 
-def dfs(map, map_size, start): 
-  frontier = []
-  explored = []
-  pacman_path = []
-  # Store how we reached neighbor
-  parent_node = {}
-  score = 0
+    # Add start node
+    frontier.append(start)
 
-  # Add start node
-  frontier.append(start)
+    while frontier:
+        node = frontier.pop()
+        explored.append(node)
+        score += 1
+        if is_food(map, node):
+            score += 20
+            # Get pacman's path
+            while node != start:
+                pacman_path.append(node)
+                node = parent_node[node]
+            pacman_path.append(start)
+            pacman_path.reverse()
+            break
 
-  while frontier:
-    node = frontier.pop()
-    explored.append(node)
-    score += 1
-    if is_food(map, node):
-      score += 20
-      # Get pacman's path
-      while node != start:
-        pacman_path.append(node)
-        node = parent_node[node]
-      pacman_path.append(start)
-      pacman_path.reverse()
-      break
+        neighbors = get_neighbors(map, map_size, node)
+        if neighbors:
+            # Add nodes that are not explored
+            for neighbor in neighbors:
+                if neighbor not in explored:
+                    frontier.append(neighbor)
+                    parent_node[neighbor] = node
 
-    neighbors = get_neighbors(map, map_size, node)
-    if neighbors:
-      # Add nodes that are not explored
-      for neighbor in neighbors:
-        if neighbor not in explored:
-          frontier.append(neighbor) 
-          parent_node[neighbor] = node
-  
-  return pacman_path, len(pacman_path), [], score
+    return pacman_path, len(pacman_path), [], score
+
 
 def bfs(map, map_size, pacman_pos):
     """
@@ -174,6 +181,13 @@ def get_neighbors(map, map_size, node):
 
     return neighbors
 
-map = [[1, 1, 1, 1, 1],[1, 0, 0, 0, 1], [2, 0, 1, 0, 1], [1, 0, 1, 0, 0], [1, 1, 1, 1, 1]]
-path, path_len, ghost_path, score = bfs(map, (5,5), (3,4))
+
+map = [
+    [1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 1],
+    [2, 0, 1, 0, 1],
+    [1, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1],
+]
+path, path_len, ghost_path, score = bfs(map, (5, 5), (3, 4))
 print(path)

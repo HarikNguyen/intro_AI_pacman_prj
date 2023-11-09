@@ -70,5 +70,4 @@ def bfs(map, map_size, pacman_pos):
                 visited.add(neighbor)
                 parent[neighbor] = node
 
-
     return path, len(path), ghost_paths, score

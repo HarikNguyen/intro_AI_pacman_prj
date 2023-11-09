@@ -100,7 +100,7 @@ def draw_all_ghost(map, map_size, grid_size=DEFAULT_GRID_SIZE, zoom=1.0):
     for row_id, row in enumerate(map):
         for col_id, cell in enumerate(row):
             if cell == MONSTER:
-                ghost_mat_pos = (col_id, row_id) # matrix (x, y) --> screen (y,x)
+                ghost_mat_pos = (col_id, row_id)  # matrix (x, y) --> screen (y,x)
                 ghost_id_list = draw_ghost(ghost_mat_pos, map_size, grid_size, zoom)
                 ghost_id_dict = {"key": (row_id, col_id), "id": ghost_id_list}
                 ghost_ids.append(ghost_id_dict)
@@ -118,7 +118,7 @@ def move_ghost(
 ):
     # move body by direction
     row_id, col_id = ghost_mat_position
-    ghost_mat_position_screen = (col_id, row_id) # matrix (x, y) --> screen (y,x)
+    ghost_mat_position_screen = (col_id, row_id)  # matrix (x, y) --> screen (y,x)
     ghost_body_step = get_ghost_step(direction, grid_size, zoom)
     for ghost_part_id in ghost_parts_id:
         move_by(ghost_part_id, ghost_body_step)

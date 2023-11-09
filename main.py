@@ -4,7 +4,7 @@ from app.constants import ALGO_NAME
 from app.utils.read_map import read_map
 from app.search_algo import search_algo
 from app.graphic import draw_pane, play_game
-
+from app.utils.find_max_score import find_max_score
 
 # Define the parser
 def config(parser):
@@ -13,7 +13,7 @@ def config(parser):
         "--build_in_map", type=str, default="map1.txt", help="Build-in Map"
     )
     parser.add_argument("--map", type=str, default="", help="Map")
-    parser.add_argument("--algo", type=str, default="a_star", help="Algorithm")
+    parser.add_argument("--algo", type=str, default="ucs", help="Algorithm")
     return parser
 
 
@@ -37,15 +37,6 @@ def main(args):
         print("Invalid algo name")
         return
 
-    # Get paths by search algorithm
-    try:
-        path, path_len, ghost_paths, score = search_algo(
-            algo_name, map, map_size, pacman_pos, args.lv
-        )
-    except:
-        print("Error: Cannot get paths by search algorithm")
-        return
-
     # Draw pane
     try:
         pacman_id, ghost_ids, food_ids, score_table_id = draw_pane(
@@ -55,22 +46,37 @@ def main(args):
         print("Error: Cannot draw pane")
         return
 
-    # Play game
+    # Get paths by search algorithm
     try:
-        play_game(
-            map_size,
-            pacman_id,
-            ghost_ids,
-            food_ids,
-            score_table_id,
-            pacman_path=path,
-            ghost_paths=ghost_paths,
-            extract_score=score,
-            time_frame=0.2,
-        )
+        if args.lv == 4:
+            path, ghost_paths = search_algo(
+                algo_name, map, map_size, pacman_pos, args.lv
+            )
+            score = find_max_score(map)
+        else:
+            path, path_len, ghost_paths, score = search_algo(
+                algo_name, map, map_size, pacman_pos, args.lv
+            )
     except:
-        print("Error: Cannot play game")
+        print("Error: Cannot get paths by search algorithm")
         return
+
+    # Play game
+    # try:
+    play_game(
+        map_size,
+        pacman_id,
+        ghost_ids,
+        food_ids,
+        score_table_id,
+        pacman_path=path,
+        ghost_paths=ghost_paths,
+        extract_score=score,
+        time_frame=0.2,
+    )
+    # except:
+    #     print("Error: Cannot play game")
+    #     return
 
 
 def get_map_path(map_path, build_in_map):
