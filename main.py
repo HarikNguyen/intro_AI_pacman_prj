@@ -62,7 +62,7 @@ def main(args):
                 algo_name, map, map_size, pacman_pos, args.lv
             )
             end = time.time()
-        print("Execution time: ", end-start)
+        print("Execution time: ", end - start)
     except:
         print("Error: Cannot get paths by search algorithm")
         return

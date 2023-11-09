@@ -1,5 +1,6 @@
 from app.constants import WALL, FOOD, MONSTER, X, Y, ROAD
 
+
 def is_food(map, pos):
     return map[pos[X]][pos[Y]] == FOOD
 
