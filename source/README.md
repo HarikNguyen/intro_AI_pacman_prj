@@ -24,7 +24,6 @@
 |   |-- utils/ # Các hàm tiện ích (ví dụ: đọc file map, ...)
 |   |-- settings/ # Các file cấu hình (ví dụ: base_url, ...)
 |   main.py # File chính (file thực thi toàn bộ project)
-├── test/ # Các file test
 ├── README.md
 |-- .gitignore # File loại bỏ các file không cần thiết khi commit
 |-- venv/ # Virtual environment (chứa các thư viện cần thiết khi thiết lập môi trường virtual env)
@@ -46,7 +45,6 @@
 ```
 
 - Linux
-
 
 ```
 $ python3 -m venv venv or python -m virtualenv venv (if python ~ python3)
