@@ -12,7 +12,7 @@ X = 0
 Y = 1
 
 # Define Algo_name list
-ALGO_NAME = ["bfs", "dfs", "ucs", "a_star", "alpha_beta_search"]
+ALGO_NAME = ["bfs", "dfs", "ucs", "a_star", "a_star_search", "alpha_beta_search"]
 
 # SCORE
 EAT_FOOD_SCORE = 20

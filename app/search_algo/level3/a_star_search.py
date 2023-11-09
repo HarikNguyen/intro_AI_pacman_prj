@@ -6,7 +6,7 @@ import random
 from app.constants import X, Y, ROAD, WALL, FOOD, MONSTER, INVISIBILITY
 
 # return pacman_path, len(path), ghosts_path, score(status: -2: block; -1: die; 1: success)
-def ucs(map, map_size, pacman_pos):
+def a_star_search(map, map_size, pacman_pos):
     pacman_res = []
     ghosts_res = []
     score = 0
