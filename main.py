@@ -1,4 +1,5 @@
 import argparse
+import time
 from app.settings import BASE_DIR
 from app.constants import ALGO_NAME
 from app.utils.read_map import read_map
@@ -49,14 +50,19 @@ def main(args):
     # Get paths by search algorithm
     try:
         if args.lv == 4:
+            start = time.time()
             path, ghost_paths = search_algo(
                 algo_name, map, map_size, pacman_pos, args.lv
             )
+            end = time.time()
             score = find_max_score(map)
         else:
+            start = time.time()
             path, path_len, ghost_paths, score = search_algo(
                 algo_name, map, map_size, pacman_pos, args.lv
             )
+            end = time.time()
+        print("Execution time: ", end-start)
     except:
         print("Error: Cannot get paths by search algorithm")
         return
